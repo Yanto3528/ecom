@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
 
+import { Cart } from "./components";
 import { NavbarProps } from "./Navbar.types";
 
 const navItems = [
@@ -32,12 +32,7 @@ export function Navbar(props: NavbarProps) {
             </li>
           ))}
         </ul>
-        <button className="relative">
-          <ShoppingBag />
-          {/* <span className="absolute top-0 right-0 bg-black rounded-full flex items-center justify-center w-4 h-4 translate-x-1/2 -translate-y-1/2 text-white text-xxs">
-            0
-          </span> */}
-        </button>
+        <Cart />
       </div>
     </nav>
   );

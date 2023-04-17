@@ -18,5 +18,8 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-radix")({ prefix: "rdx" }),
+    require("tailwindcss-animate"),
+  ],
 };
