@@ -1,9 +1,11 @@
+"use client";
+
 import {
   Root,
   Trigger,
-  Portal,
   DropdownMenuProps,
 } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenuContent } from "./components";
 
 // import { DropdownMenuProps } from "./DropdownMenu.types";
 
@@ -15,4 +17,4 @@ export default function DropdownMenu({
 }
 
 DropdownMenu.Trigger = Trigger;
-DropdownMenu.Portal = Portal;
+DropdownMenu.Content = DropdownMenuContent;

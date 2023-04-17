@@ -1,5 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+
+import { formatCurrency } from "@/lib/utils";
+
 import { ProductCardProps } from "./ProductCard.types";
 
 export function ProductCard({ product }: ProductCardProps) {
@@ -20,7 +23,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="p-4">
         <h3 className="font-bold text-lg">{name}</h3>
-        <p className="text-gray-500">${price}</p>
+        <p className="text-gray-500">{formatCurrency(price)}</p>
       </div>
     </Link>
   );

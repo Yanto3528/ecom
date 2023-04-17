@@ -1,14 +1,22 @@
 "use client";
 
-import { Button, Input } from "@/components/ui";
+import { Button, InputNumber } from "@/components/ui";
 import { useCartStore } from "@/store/cart.store";
+import { formatCurrency } from "@/lib/utils";
+import { useState } from "react";
+
 import { ProductDetailsProps } from "./ProductDetails.types";
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
   const addItemToCart = useCartStore((state) => state.addItem);
 
   const onAddItem = () => {
-    addItemToCart(1, product);
+    addItemToCart(selectedQuantity, product);
+  };
+
+  const onChangeQuantity = (value: number) => {
+    setSelectedQuantity(value);
   };
 
   return (
@@ -16,7 +24,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       <span className="text-gray-500">{product.category}</span>
       <h1 className="text-3xl font-bold mb-6">{product.name}</h1>
       <p>{product.description}</p>
-      <p className="font-bold text-2xl mt-8">${product.price}</p>
+      <p className="font-bold text-2xl mt-8">{formatCurrency(product.price)}</p>
       <div className="my-4">
         <label htmlFor="quantity" className="block mb-2">
           Quantity{" "}
@@ -24,11 +32,12 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <span className="text-red-500 font-bold">Out of stock</span>
           )}
         </label>
-        <Input
-          type="number"
+        <InputNumber
           placeholder="Select quantity"
           min={1}
           max={product.quantity}
+          onChange={onChangeQuantity}
+          value={selectedQuantity}
           disabled={product.quantity <= 0}
         />
       </div>

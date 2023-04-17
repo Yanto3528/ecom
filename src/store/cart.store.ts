@@ -7,6 +7,7 @@ interface CartSlice {
     product: Product;
   }[];
   addItem: (quantity: number, product: Product) => void;
+  updateQuantity: (quantity: number, product: Product) => void;
   incrementQuantity: (product: Product) => void;
   decrementQuantity: (product: Product) => void;
   removeItem: (quantity: number, product: Product) => void;
@@ -39,6 +40,12 @@ export const useCartStore = create<CartSlice>((set) => ({
         }),
       };
     }),
+  updateQuantity: (quantity, product) =>
+    set((state) => ({
+      items: state.items.map((item) =>
+        item.product.id === product.id ? { ...item, quantity } : item
+      ),
+    })),
   removeItem: () => {},
   incrementQuantity: () => {},
   decrementQuantity: () => {},
