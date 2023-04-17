@@ -1,6 +1,6 @@
 import { Product } from "@/types/product";
 
 export interface ProductCardListProps {
-  title: string;
+  title?: string;
   products: Product[];
 }

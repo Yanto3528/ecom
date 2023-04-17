@@ -5,7 +5,8 @@ export const buttonStyles = cva(
   {
     variants: {
       variant: {
-        primary: "bg-blue-500 text-white enabled:hover:bg-blue-700",
+        primary:
+          "bg-blue-500 text-white enabled:hover:bg-blue-700 active:bg-blue-700",
       },
     },
     defaultVariants: {

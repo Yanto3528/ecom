@@ -10,9 +10,14 @@ import { useCartStore } from "@/store/cart.store";
 
 export default function CartData({ product, quantity }: CardDataProps) {
   const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const removeCartItem = useCartStore((state) => state.removeItem);
 
   const onQuantityChange = (value: number) => {
     updateQuantity(value, product);
+  };
+
+  const onRemoveItem = () => {
+    removeCartItem(product.id);
   };
 
   return (
@@ -41,7 +46,7 @@ export default function CartData({ product, quantity }: CardDataProps) {
         {formatCurrency(product.price * quantity)}
       </td>
       <td className="text-center py-4">
-        <button>
+        <button onClick={onRemoveItem}>
           <Trash2 />
         </button>
       </td>
