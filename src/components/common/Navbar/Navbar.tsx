@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
+
+import { Button, Avatar } from "@/components/ui";
 
 import { Cart } from "./components";
 import { NavbarProps } from "./Navbar.types";
+import { signIn, useSession } from "next-auth/react";
 
 const navItems = [
   {
@@ -18,7 +23,13 @@ const navItems = [
   },
 ];
 
-export async function Navbar(props: NavbarProps) {
+export default function Navbar(props: NavbarProps) {
+  const { data, status } = useSession();
+
+  const onSignIn = () => {
+    signIn("google");
+  };
+
   return (
     <nav className="py-6 bg-white shadow-sm sticky top-0 mb-14 z-10">
       <div className="container flex items-center justify-between">
@@ -32,7 +43,18 @@ export async function Navbar(props: NavbarProps) {
             </li>
           ))}
         </ul>
-        <Cart />
+        <div className="flex items-center gap-4">
+          <Cart />
+          {data?.user ? (
+            <Avatar
+              src={data.user.image || ""}
+              alt={data.user.name || ""}
+              fallback="YL"
+            />
+          ) : (
+            status !== "loading" && <Button onClick={onSignIn}>Sign in</Button>
+          )}
+        </div>
       </div>
     </nav>
   );

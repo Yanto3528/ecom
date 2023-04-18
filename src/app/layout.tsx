@@ -21,7 +21,6 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <Providers>
         <body className="bg-gray-50 min-h-screen flex flex-col">
-          {/* @ts-expect-error */}
           <Navbar />
           <div className="flex-1">{children}</div>
           <Footer />

@@ -47,7 +47,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  password      String?   @db.Text
+  role          ROLE      @default(USER)
   accounts      Account[]
   sessions      Session[]
 }
@@ -66,4 +66,9 @@ model Product {
   price     Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum ROLE {
+  ADMIN
+  USER
 }

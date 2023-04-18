@@ -1,4 +1,4 @@
-export * from "./Navbar";
+export { default as Navbar } from "./Navbar";
 export * from "./ProductCardList";
 export * from "./ProductCard";
 export * from "./Footer";

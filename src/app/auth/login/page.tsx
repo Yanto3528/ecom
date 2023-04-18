@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import { Input, InputPassword, Form, Button } from "@/components/ui";
 import { useSignInCredentialsMutation } from "@/hooks/auth";
+import { useSession } from "next-auth/react";
 
 interface FormValues {
   email: string;
@@ -26,6 +27,10 @@ const schema = z.object({
 });
 
 export default function Login() {
+  const { data } = useSession();
+
+  console.log("data: ", data);
+
   const {
     register,
     handleSubmit,
