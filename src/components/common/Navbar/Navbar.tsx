@@ -18,7 +18,7 @@ const navItems = [
   },
 ];
 
-export function Navbar(props: NavbarProps) {
+export async function Navbar(props: NavbarProps) {
   return (
     <nav className="py-6 bg-white shadow-sm sticky top-0 mb-14 z-10">
       <div className="container flex items-center justify-between">

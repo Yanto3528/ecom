@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
+import { Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
 
-import { Navbar, Footer } from "@/components/common";
+import { Navbar, Footer, Providers } from "@/components/common";
 import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,11 +19,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="bg-gray-50 min-h-screen flex flex-col">
-        <Navbar />
-        <div className="flex-1">{children}</div>
-        <Footer />
-      </body>
+      <Providers>
+        <body className="bg-gray-50 min-h-screen flex flex-col">
+          {/* @ts-expect-error */}
+          <Navbar />
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </body>
+      </Providers>
     </html>
   );
 }
