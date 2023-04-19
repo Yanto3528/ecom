@@ -61,11 +61,25 @@ model VerificationToken {
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
+  name       String
+  slug       String    @unique
+  price      Float
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?
+
+  @@index([categoryId])
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
   name      String
-  price     Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
 }
 
 enum ROLE {
