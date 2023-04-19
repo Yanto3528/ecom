@@ -4,51 +4,73 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { validate, catchAsync } from "@/lib/api-middlewares";
 
-const updateCategorySchema = z.object({
+const updateProductSchema = z.object({
   name: z.string().optional(),
   slug: z.string().optional(),
+  description: z.string().optional(),
+  price: z.number().optional(),
+  quantity: z.number().optional(),
+  categoryId: z.number().optional(),
 });
 
-const getCategory: NextApiHandler = async (req, res) => {
+const getProduct: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
 
-  const category = await prisma.category.findFirst({
+  const product = await prisma.product.findFirst({
     where: {
       slug: slug as string,
+    },
+    include: {
+      category: true,
     },
   });
 
   return res.status(200).json({
     status: "success",
-    data: category,
+    data: product,
     pagination: null,
   });
 };
 
-const updateCategory: NextApiHandler = async (req, res) => {
+const updateProduct: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
-  const { name, slug: bodySlug } = req.body;
+  const {
+    name,
+    slug: bodySlug,
+    description,
+    price,
+    quantity,
+    categoryId,
+  } = req.body;
 
-  const category = await prisma.category.update({
+  const product = await prisma.product.update({
     where: {
       slug: slug as string,
     },
     data: {
       name,
       slug: bodySlug,
+      description,
+      price,
+      quantity,
+      category: {
+        connect: {
+          id: categoryId,
+        },
+      },
     },
   });
 
   return res.status(200).json({
     status: "success",
-    data: category,
+    data: product,
   });
 };
 
-const deleteCategory: NextApiHandler = async (req, res) => {
+const deleteProduct: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
 
-  await prisma.category.delete({
+  await prisma.product.delete({
     where: {
       slug: slug as string,
     },
@@ -63,11 +85,11 @@ const deleteCategory: NextApiHandler = async (req, res) => {
 const handler: NextApiHandler = (req, res) => {
   switch (req.method) {
     case "GET":
-      return catchAsync(req, res, getCategory);
+      return catchAsync(req, res, getProduct);
     case "PUT":
-      return validate(req, res, updateCategorySchema, updateCategory);
+      return validate(req, res, updateProductSchema, updateProduct);
     case "DELETE":
-      return catchAsync(req, res, deleteCategory);
+      return catchAsync(req, res, deleteProduct);
     default:
       return res.status(405).json({
         status: "error",
