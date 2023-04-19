@@ -1,10 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Trash2 } from "lucide-react";
-import Image from "next/image";
+import { useMemo } from "react";
 
-import { Input } from "@/components/ui";
 import { useCartStore } from "@/store/cart.store";
 
 import CartData from "../CartData";

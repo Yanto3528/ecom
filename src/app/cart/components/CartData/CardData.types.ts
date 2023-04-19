@@ -1,6 +1,6 @@
-import { Product } from "@/types/product";
+import { ProductEntity } from "@/entities/product.entity";
 
 export interface CardDataProps {
-  product: Product;
+  product: ProductEntity;
   quantity: number;
 }

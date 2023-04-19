@@ -64,7 +64,7 @@ model Product {
   id          Int            @id @default(autoincrement())
   name        String
   slug        String         @unique
-  price       Decimal        @db.Decimal(10, 2)
+  price       Float          @db.Float()
   description String         @db.Text
   quantity    Int
   createdAt   DateTime       @default(now())

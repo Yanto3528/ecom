@@ -1,5 +1,4 @@
 import { ProductCardList } from "@/components/common";
-import { products } from "@/mock-data/products";
 import { fetchCollections } from "@/services/collections.service";
 
 export default async function Home() {

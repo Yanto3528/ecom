@@ -52,7 +52,7 @@ export const products = [
     id: 2,
     name: "Mens Casual Premium Slim Fit T-Shirts ",
     slug: "mens-casual-premium-slim-fit-t-shirts",
-    price: 22.3,
+    price: 22.33,
     description:
       "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
     categoryId: 1,
@@ -82,7 +82,7 @@ export const products = [
     id: 5,
     name: "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
     slug: "john-hardy-womens-legends-naga-gold-silver-dragon-station-chain-bracelet",
-    price: 695,
+    price: 695.99,
     description:
       "From our Legends Collection, the Naga was inspired by the mythical water dragon that protects the ocean's pearl. Wear facing inward to be bestowed with love and abundance, or outward for protection.",
     categoryId: 3,
@@ -92,7 +92,7 @@ export const products = [
     id: 6,
     name: "Solid Gold Petite Micropave",
     slug: "solid-gold-petite-micropave",
-    price: 168,
+    price: 168.99,
     description:
       "Satisfaction Guaranteed. Return or exchange any order within 30 days.Designed and sold by Hafeez Center in the United States. Satisfaction Guaranteed. Return or exchange any order within 30 days.",
     categoryId: 3,
