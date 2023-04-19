@@ -1,15 +1,15 @@
-import { Product } from "@/types/product";
+import { ProductEntity } from "@/entities/product.entity";
 import { create } from "zustand";
 
 interface CartSlice {
   items: {
     quantity: number;
-    product: Product;
+    product: ProductEntity;
   }[];
-  addItem: (quantity: number, product: Product) => void;
-  updateQuantity: (quantity: number, product: Product) => void;
-  incrementQuantity: (product: Product) => void;
-  decrementQuantity: (product: Product) => void;
+  addItem: (quantity: number, product: ProductEntity) => void;
+  updateQuantity: (quantity: number, product: ProductEntity) => void;
+  incrementQuantity: (product: ProductEntity) => void;
+  decrementQuantity: (product: ProductEntity) => void;
   removeItem: (id: number) => void;
 }
 

@@ -6,11 +6,11 @@ import { formatCurrency } from "@/lib/utils";
 import { ProductCardProps } from "./ProductCard.types";
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { id, name, images, price } = product;
+  const { slug, name, images, price } = product;
 
   return (
     <Link
-      href={`/products/${id}`}
+      href={`/products/${slug}`}
       className="bg-white block shadow-md rounded-md h-full cursor-pointer overflow-hidden"
     >
       <div className="relative w-full aspect-square overflow-hidden">

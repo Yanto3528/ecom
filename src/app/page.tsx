@@ -14,14 +14,18 @@ export default async function Home() {
   return (
     <main className="container">
       <div className="flex flex-col gap-10">
-        <ProductCardList
-          title={bestSellerCollectionData.name}
-          products={bestSellerCollectionData.products}
-        />
-        <ProductCardList
-          title={popularCollectionData.name}
-          products={popularCollectionData.products}
-        />
+        {bestSellerCollectionData && (
+          <ProductCardList
+            title={bestSellerCollectionData.name}
+            products={bestSellerCollectionData.products}
+          />
+        )}
+        {popularCollectionData && (
+          <ProductCardList
+            title={popularCollectionData.name}
+            products={popularCollectionData.products}
+          />
+        )}
       </div>
     </main>
   );

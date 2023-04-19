@@ -10,7 +10,7 @@ const createProductSchema = z.object({
   name: z.string().nonempty("Name is required"),
   description: z.string().nonempty("Description is required"),
   price: z.number().nonnegative("Price must be greater than 0"),
-  quantity: z.number().nonnegative("Quantity must be greater than 0"),
+  quantity: z.number(),
   categoryId: z.number(),
 });
 

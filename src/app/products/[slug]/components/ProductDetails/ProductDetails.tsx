@@ -21,7 +21,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
   return (
     <div className="flex-1">
-      <span className="text-gray-500">{product.category}</span>
+      <span className="text-gray-500 uppercase text-xs">
+        {product.category?.name}
+      </span>
       <h1 className="text-3xl font-bold mb-6">{product.name}</h1>
       <p>{product.description}</p>
       <p className="font-bold text-2xl mt-8">{formatCurrency(product.price)}</p>
