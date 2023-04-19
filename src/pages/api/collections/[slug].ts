@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
 import { validate, catchAsync } from "@/lib/api-middlewares";
+import { productInclude } from "@/entities/product.entity";
 
 const updateCollectionSchema = z.object({
   name: z.string().optional(),
@@ -18,7 +19,9 @@ const getCollection: NextApiHandler = async (req, res) => {
       slug: slug as string,
     },
     include: {
-      products: true,
+      products: {
+        include: productInclude,
+      },
     },
   });
 
@@ -45,7 +48,9 @@ const updateCollection: NextApiHandler = async (req, res) => {
       },
     },
     include: {
-      products: true,
+      products: {
+        include: productInclude,
+      },
     },
   });
 

@@ -1,6 +1,6 @@
-import { Product } from "@/types/product";
+import { ProductEntity } from "@/entities/product.entity";
 
 export interface ProductCardListProps {
   title?: string;
-  products: Product[];
+  products: ProductEntity[];
 }

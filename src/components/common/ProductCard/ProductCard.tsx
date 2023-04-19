@@ -15,8 +15,8 @@ export function ProductCard({ product }: ProductCardProps) {
     >
       <div className="relative w-full aspect-square overflow-hidden">
         <Image
-          src={images[0].url}
-          alt={images[0].alt}
+          src={images?.[0].url || ""}
+          alt={images?.[0].alt || ""}
           fill
           className="object-cover hover:scale-110 transition-all duration-500"
         />

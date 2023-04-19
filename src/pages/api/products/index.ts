@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
 import { validate, catchAsync } from "@/lib/api-middlewares";
+import { productInclude } from "@/entities/product.entity";
 
 const createProductSchema = z.object({
   name: z.string().nonempty("Name is required"),
@@ -14,7 +15,9 @@ const createProductSchema = z.object({
 });
 
 const getProducts: NextApiHandler = async (_, res) => {
-  const products = await prisma.product.findMany();
+  const products = await prisma.product.findMany({
+    include: productInclude,
+  });
 
   return res.status(200).json({
     status: "success",
@@ -44,6 +47,7 @@ const createProduct: NextApiHandler = async (req, res) => {
         },
       },
     },
+    include: productInclude,
   });
 
   return res.status(200).json({

@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
 import { validate, catchAsync } from "@/lib/api-middlewares";
+import { productInclude } from "@/entities/product.entity";
 
 const updateProductSchema = z.object({
   name: z.string().optional(),
@@ -20,9 +21,7 @@ const getProduct: NextApiHandler = async (req, res) => {
     where: {
       slug: slug as string,
     },
-    include: {
-      category: true,
-    },
+    include: productInclude,
   });
 
   return res.status(200).json({
@@ -59,6 +58,7 @@ const updateProduct: NextApiHandler = async (req, res) => {
         },
       },
     },
+    include: productInclude,
   });
 
   return res.status(200).json({

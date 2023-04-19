@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
 import { validate, catchAsync } from "@/lib/api-middlewares";
+import { productInclude } from "@/entities/product.entity";
 
 const createCollectionSchema = z.object({
   name: z.string().nonempty("Name is required"),
@@ -13,7 +14,9 @@ const createCollectionSchema = z.object({
 const getCollections: NextApiHandler = async (_, res) => {
   const collections = await prisma.collection.findMany({
     include: {
-      products: true,
+      products: {
+        include: productInclude,
+      },
     },
   });
 
@@ -41,7 +44,9 @@ const createCollection: NextApiHandler = async (req, res) => {
       },
     },
     include: {
-      products: true,
+      products: {
+        include: productInclude,
+      },
     },
   });
 
