@@ -5,47 +5,58 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { validate, catchAsync } from "@/lib/api-middlewares";
 
-const createCategorySchema = z.object({
+const createCollectionSchema = z.object({
   name: z.string().nonempty("Name is required"),
+  products: z.array(z.object({ id: z.number() })),
 });
 
-const getCategories: NextApiHandler = async (_, res) => {
-  const categories = await prisma.category.findMany();
+const getCollections: NextApiHandler = async (_, res) => {
+  const collections = await prisma.collection.findMany({
+    include: {
+      products: true,
+    },
+  });
 
   return res.status(200).json({
     status: "success",
-    data: categories,
+    data: collections,
     pagination: {
-      totalCount: categories.length,
+      totalCount: collections.length,
       totalPage: 1,
     },
   });
 };
 
-const createCategory: NextApiHandler = async (req, res) => {
-  const { name } = req.body;
+const createCollection: NextApiHandler = async (req, res) => {
+  const { name, products } = req.body;
 
   const slug = slugify(name, { lower: true, trim: true, strict: true });
 
-  const category = await prisma.category.create({
+  const collection = await prisma.collection.create({
     data: {
       name,
       slug,
+      products: {
+        connect: products,
+      },
+    },
+    include: {
+      products: true,
     },
   });
 
   return res.status(200).json({
     status: "success",
-    data: category,
+    data: collection,
   });
 };
 
 const handler: NextApiHandler = (req, res) => {
   switch (req.method) {
     case "GET":
-      return catchAsync(req, res, getCategories);
+      return catchAsync(req, res, getCollections);
     case "POST":
-      return validate(req, res, createCategorySchema, createCategory);
+      return validate(req, res, createCollectionSchema, createCollection);
     default:
       return res.status(405).json({
         status: "error",

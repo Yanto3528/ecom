@@ -72,6 +72,7 @@ model Product {
   category    Category?      @relation(fields: [categoryId], references: [id])
   categoryId  Int?
   images      ProductImage[]
+  collection  Collection[]
 
   @@index([categoryId])
 }
@@ -87,6 +88,15 @@ model ProductImage {
 }
 
 model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
+model Collection {
   id        Int       @id @default(autoincrement())
   name      String
   slug      String    @unique
