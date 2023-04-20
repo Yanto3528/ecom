@@ -1,22 +1,38 @@
 "use client";
 
 import { useMemo } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 import { useCartStore } from "@/store/cart.store";
+import { useStore } from "@/hooks/common";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui";
 
 export default function Summary() {
-  const cartItems = useCartStore((state) => state.items);
+  const cartItems = useStore(useCartStore, (state) => state.items);
+  const { data } = useSession();
+  const router = useRouter();
 
   const subtotal = useMemo(() => {
-    return cartItems.reduce(
-      (acc, item) => acc + item.quantity * item.product.price,
-      0
+    return (
+      cartItems?.reduce(
+        (acc, item) => acc + item.quantity * item.product.price,
+        0
+      ) || 0
     );
   }, [cartItems]);
 
-  if (cartItems.length === 0) {
+  const onCheckout = () => {
+    if (data?.user) {
+      router.push("/checkout");
+      return;
+    }
+
+    router.push("/auth/login");
+  };
+
+  if (cartItems?.length === 0) {
     return null;
   }
 
@@ -40,7 +56,9 @@ export default function Summary() {
           <span>{formatCurrency(subtotal)}</span>
         </div>
       </div>
-      <Button>Checkout</Button>
+      <Button onClick={onCheckout}>
+        {data?.user ? "Checkout" : "Sign in to checkout"}
+      </Button>
     </div>
   );
 }

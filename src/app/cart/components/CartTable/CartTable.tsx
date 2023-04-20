@@ -3,17 +3,18 @@
 import { useMemo } from "react";
 
 import { useCartStore } from "@/store/cart.store";
+import { useStore } from "@/hooks/common";
 
 import CartData from "../CartData";
 
 export default function CartTable() {
-  const cartItems = useCartStore((state) => state.items);
+  const cartItems = useStore(useCartStore, (state) => state.items);
 
   const totalItems = useMemo(() => {
-    return cartItems.reduce((acc, item) => acc + item.quantity, 0);
+    return cartItems?.reduce((acc, item) => acc + item.quantity, 0) || 0;
   }, [cartItems]);
 
-  if (cartItems.length === 0) {
+  if (cartItems?.length === 0) {
     return (
       <div>
         <p>Your cart is empty</p>
@@ -38,7 +39,7 @@ export default function CartTable() {
           </tr>
         </thead>
         <tbody>
-          {cartItems.map(({ quantity, product }) => (
+          {cartItems?.map(({ quantity, product }) => (
             <CartData key={product.id} product={product} quantity={quantity} />
           ))}
         </tbody>
