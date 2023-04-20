@@ -4,8 +4,8 @@ import { ProductCardList } from "@/components/common";
 import { fetchProducts } from "@/services/products.service";
 
 export default async function Products() {
-  // const response = await fetchProducts();
-  const response = { data: [] };
+  const response = await fetchProducts();
+  // const response = { data: [] };
 
   if (response.data.length === 0) {
     return null;
