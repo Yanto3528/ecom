@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui";
 
@@ -32,19 +32,18 @@ export default function Navbar(props: NavbarProps) {
     router.push("/auth/login");
   };
 
-  const onLogout = () => {
-    signOut();
-  };
-
   return (
     <nav className="py-6 bg-white shadow-sm sticky top-0 mb-14 z-10 w-full">
       <div className="container flex items-center justify-between">
-        <Link className="font-black text-blue-600" href="/">
+        <Link className="font-black text-primary-600" href="/">
           TVAB
         </Link>
         <ul className="flex items-center gap-4">
           {navItems.map((item) => (
-            <li key={item.label} className="hover:text-blue-500 transition-all">
+            <li
+              key={item.label}
+              className="hover:text-primary-500 transition-all"
+            >
               <Link href={item.href}>{item.label}</Link>
             </li>
           ))}

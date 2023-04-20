@@ -19,12 +19,15 @@ export default function Footer() {
   return (
     <footer className="bg-gray-100 pt-10 mt-10">
       <div className="container flex gap-10">
-        <Link className="font-black text-blue-600" href="/">
+        <Link className="font-black text-primary-600" href="/">
           TVAB
         </Link>
         <ul className="flex flex-col gap-4">
           {links.map((link) => (
-            <li key={link.label} className="hover:text-blue-500 transition-all">
+            <li
+              key={link.label}
+              className="hover:text-primary-500 transition-all"
+            >
               <Link href={link.href}>{link.label}</Link>
             </li>
           ))}

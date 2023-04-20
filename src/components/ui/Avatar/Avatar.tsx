@@ -15,7 +15,7 @@ export default function Avatar({
   return (
     <Root
       className={cn(
-        "w-6 aspect-square text-xs bg-blue-200 flex items-center justify-center rounded-full overflow-hidden",
+        "w-6 aspect-square text-xs bg-primary-200 flex items-center justify-center rounded-full overflow-hidden",
         rootClassName
       )}
     >
