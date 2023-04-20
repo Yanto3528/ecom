@@ -10,9 +10,6 @@ export default async function Home() {
     popularCollection,
   ]);
 
-  // const bestSellerCollectionData = { name: "Test", products: [] };
-  // const popularCollectionData = { name: "Test", products: [] };
-
   return (
     <main className="container">
       <div className="flex flex-col gap-10">
