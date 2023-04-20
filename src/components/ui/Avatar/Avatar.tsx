@@ -1,17 +1,33 @@
 import { Root, Image, Fallback } from "@radix-ui/react-avatar";
 
 import { AvatarProps } from "./Avatar.types";
+import { cn } from "@/lib/utils";
 
-export default function Avatar({ src, alt, ...props }: AvatarProps) {
+export default function Avatar({
+  src,
+  alt,
+  fallback,
+  className,
+  rootClassName,
+  fallbackClassName,
+  ...props
+}: AvatarProps) {
   return (
-    <Root className="w-6 aspect-square inline-block rounded-full overflow-hidden">
+    <Root
+      className={cn(
+        "w-6 aspect-square text-xs bg-blue-200 flex items-center justify-center rounded-full overflow-hidden",
+        rootClassName
+      )}
+    >
       <Image
         src={src}
         alt={alt}
-        className="w-full h-full object-cover"
+        className={cn("w-full h-full object-cover", className)}
         {...props}
       />
-      <Fallback>YL</Fallback>
+      <Fallback className={cn("font-semibold", fallbackClassName)}>
+        {fallback}
+      </Fallback>
     </Root>
   );
 }

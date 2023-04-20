@@ -11,3 +11,15 @@ export function formatCurrency(value: number) {
     currency: "USD",
   }).format(value);
 }
+
+export function getNameInitial(name?: string | null) {
+  if (!name) {
+    return "";
+  }
+
+  return name
+    .split(" ")
+    .slice(0, 2)
+    .map((word) => word[0].toUpperCase())
+    .join("");
+}

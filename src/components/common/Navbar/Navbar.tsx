@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { User, LogOut } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 
-import { Button, Avatar, DropdownMenu } from "@/components/ui";
+import { Button } from "@/components/ui";
 
-import { Cart } from "./components";
+import { Cart, AccountMenu } from "./components";
 import { NavbarProps } from "./Navbar.types";
-import { signIn, signOut, useSession } from "next-auth/react";
 
 const navItems = [
   {
@@ -53,25 +52,7 @@ export default function Navbar(props: NavbarProps) {
         <div className="flex items-center gap-4">
           <Cart />
           {data?.user ? (
-            <DropdownMenu>
-              <DropdownMenu.Trigger className="flex items-center justify-center">
-                <Avatar
-                  src={data.user.image || ""}
-                  alt={data.user.name || ""}
-                  fallback="YL"
-                />
-              </DropdownMenu.Trigger>
-              <DropdownMenu.Content>
-                <DropdownMenu.Item>
-                  <User size={18} />
-                  <span>Profile</span>
-                </DropdownMenu.Item>
-                <DropdownMenu.Item onClick={onLogout}>
-                  <LogOut size={18} />
-                  <span>Logout</span>
-                </DropdownMenu.Item>
-              </DropdownMenu.Content>
-            </DropdownMenu>
+            <AccountMenu session={data} />
           ) : (
             status !== "loading" && (
               <Button onClick={onSignIn} className="py-1 px-4">
