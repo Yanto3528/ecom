@@ -1,9 +1,20 @@
 import { BASE_API_URL } from "@/constants/url.constants";
+import { api } from "./api";
 
-export const fetchClientSecret = async (): Promise<string> => {
-  const response = await fetch(`${BASE_API_URL}/create-payment-intent`);
+interface CreatePaymentIntentPayload {
+  items: {
+    quantity: number;
+    productId: number;
+  }[];
+}
 
-  const responseBody = await response.json();
+export const createPaymentIntent = async (
+  payload: CreatePaymentIntentPayload
+): Promise<string> => {
+  const response = await api.post(
+    `${BASE_API_URL}/create-payment-intent`,
+    payload
+  );
 
-  return responseBody.data;
+  return response.data.data;
 };

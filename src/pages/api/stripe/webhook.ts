@@ -2,6 +2,7 @@ import { NextApiHandler } from "next";
 import { buffer } from "micro";
 
 import { stripe } from "@/lib/stripe";
+import { handleChargeSucceeded } from "@/lib/webhook";
 
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 
@@ -9,9 +10,8 @@ export const config = { api: { bodyParser: false } };
 
 const handleStripeWebhook: NextApiHandler = async (req, res) => {
   const signature = req.headers["stripe-signature"] as string;
-  let event;
-
   const reqBuffer = await buffer(req);
+  let event;
 
   try {
     event = stripe.webhooks.constructEvent(
@@ -28,19 +28,16 @@ const handleStripeWebhook: NextApiHandler = async (req, res) => {
   }
 
   switch (event.type) {
-    case "payment_intent.succeeded":
-      const paymentIntentSuccedeed = event.data.object;
-      console.log("payemntIntentSuccedeed: ", paymentIntentSuccedeed);
-
+    case "charge.succeeded": {
+      handleChargeSucceeded(event);
       break;
-    case "charge.succeeded":
-      const chargeSucceeded = event.data.object;
-      console.log("chargeSucceeded: ", chargeSucceeded);
+    }
     default:
       console.log(`Unhandled event type ${event.type}`);
+      break;
   }
 
-  return res.status(200).json({});
+  return res.status(200).json({ received: true });
 };
 
 const handler: NextApiHandler = (req, res) => {

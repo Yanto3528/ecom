@@ -8,10 +8,12 @@ import {
 } from "@stripe/react-stripe-js";
 
 import { Button } from "@/components/ui";
+import { useSession } from "next-auth/react";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
+  const { data } = useSession();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -27,6 +29,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         return_url: returnUrl,
+        receipt_email: data?.user.email || "",
       },
     });
 
