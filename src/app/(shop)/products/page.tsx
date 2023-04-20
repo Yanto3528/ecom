@@ -1,6 +1,6 @@
 import { products } from "@/mock-data/products";
 
-import { ProductCardList } from "@/components/common";
+import { ProductCardList } from "@/components/shop";
 import { fetchProducts } from "@/services/products.service";
 
 export default async function Products() {

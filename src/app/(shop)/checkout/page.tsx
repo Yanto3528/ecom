@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { StripeElements } from "@/components/common";
+import { StripeElements } from "@/components/shop";
 import { useCreatePaymentIntentMutation } from "@/hooks/services/stripe.service.hooks";
 import { useStore } from "@/hooks/common";
 import { useCartStore } from "@/store/cart.store";

@@ -15,7 +15,7 @@ const links = [
   },
 ];
 
-export function Footer() {
+export default function Footer() {
   return (
     <footer className="bg-gray-100 pt-10 mt-10">
       <div className="container flex gap-10">

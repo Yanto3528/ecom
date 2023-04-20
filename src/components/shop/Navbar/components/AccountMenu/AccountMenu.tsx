@@ -28,7 +28,7 @@ export default function AccountMenu({ session }: AccountMenuProps) {
             fallback={getNameInitial(session.user.name)}
             rootClassName="w-10 text-md"
           />
-          <div className="flex-1">
+          <div className="flex-1 flex flex-col">
             <p className="font-bold text-sm">{session.user.name}</p>
             <span className="text-xs text-gray-500">{session.user.email}</span>
           </div>

@@ -5,7 +5,7 @@ import { formatCurrency } from "@/lib/utils";
 
 import { ProductCardProps } from "./ProductCard.types";
 
-export function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product }: ProductCardProps) {
   const { slug, name, images, price } = product;
 
   return (

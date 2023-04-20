@@ -1,8 +1,6 @@
 import { Inter } from "next/font/google";
-import { Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 
-import { Navbar, Footer, Providers } from "@/components/common";
+import { Providers } from "@/components/common";
 import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,9 +19,7 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <Providers>
         <body className="bg-gray-50 min-h-screen flex flex-col">
-          <Navbar />
-          <div className="flex-1">{children}</div>
-          <Footer />
+          {children}
         </body>
       </Providers>
     </html>

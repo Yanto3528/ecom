@@ -1,7 +1,10 @@
-import { ProductCard } from "../ProductCard";
+import ProductCard from "../ProductCard";
 import { ProductCardListProps } from "./ProductCardList.types";
 
-export function ProductCardList({ title, products }: ProductCardListProps) {
+export default function ProductCardList({
+  title,
+  products,
+}: ProductCardListProps) {
   return (
     <div>
       {title && <h2 className="font-bold text-2xl mb-4">{title}</h2>}

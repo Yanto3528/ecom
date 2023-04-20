@@ -1,4 +1,4 @@
-import { ProductCardList } from "@/components/common";
+import { ProductCardList } from "@/components/shop";
 import { fetchCollections } from "@/services/collections.service";
 
 export default async function Home() {
