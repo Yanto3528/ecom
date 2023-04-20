@@ -2,13 +2,16 @@ import { ProductCardList } from "@/components/common";
 import { fetchCollections } from "@/services/collections.service";
 
 export default async function Home() {
-  const bestSellerCollection = fetchCollections("best-seller");
-  const popularCollection = fetchCollections("popular");
+  // const bestSellerCollection = fetchCollections("best-seller");
+  // const popularCollection = fetchCollections("popular");
 
-  const [bestSellerCollectionData, popularCollectionData] = await Promise.all([
-    bestSellerCollection,
-    popularCollection,
-  ]);
+  // const [bestSellerCollectionData, popularCollectionData] = await Promise.all([
+  //   bestSellerCollection,
+  //   popularCollection,
+  // ]);
+
+  const bestSellerCollectionData = { name: "Test", products: [] };
+  const popularCollectionData = { name: "Test", products: [] };
 
   return (
     <main className="container">
