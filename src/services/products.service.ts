@@ -5,15 +5,24 @@ import { PaginatedResponse } from "@/types/common";
 export const fetchProducts = async (): Promise<
   PaginatedResponse<ProductEntity>
 > => {
-  console.log("baseURl: ", BASE_API_URL);
-  const response = await fetch(`${BASE_API_URL}/products`, {
-    next: { revalidate: 60 },
-  });
+  try {
+    const response = await fetch(`${BASE_API_URL}/products`, {
+      next: { revalidate: 60 },
+    });
 
-  const responseBody = await response.json();
+    const responseBody = await response.json();
 
-  console.log("responseBody: ", responseBody);
-  return responseBody;
+    return responseBody;
+  } catch (error) {
+    return {
+      status: "error",
+      data: [],
+      pagination: {
+        totalCount: 0,
+        totalPage: 0,
+      },
+    };
+  }
 };
 
 export const fetchProductBySlug = async (
