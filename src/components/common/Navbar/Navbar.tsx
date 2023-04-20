@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { User, LogOut } from "lucide-react";
 
-import { Button, Avatar } from "@/components/ui";
+import { Button, Avatar, DropdownMenu } from "@/components/ui";
 
 import { Cart } from "./components";
 import { NavbarProps } from "./Navbar.types";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const navItems = [
   {
@@ -25,13 +27,18 @@ const navItems = [
 
 export default function Navbar(props: NavbarProps) {
   const { data, status } = useSession();
+  const router = useRouter();
 
   const onSignIn = () => {
-    signIn("google");
+    router.push("/auth/login");
+  };
+
+  const onLogout = () => {
+    signOut();
   };
 
   return (
-    <nav className="py-6 bg-white shadow-sm sticky top-0 mb-14 z-10">
+    <nav className="py-6 bg-white shadow-sm sticky top-0 mb-14 z-10 w-full">
       <div className="container flex items-center justify-between">
         <Link className="font-black text-blue-600" href="/">
           TVAB
@@ -46,13 +53,31 @@ export default function Navbar(props: NavbarProps) {
         <div className="flex items-center gap-4">
           <Cart />
           {data?.user ? (
-            <Avatar
-              src={data.user.image || ""}
-              alt={data.user.name || ""}
-              fallback="YL"
-            />
+            <DropdownMenu>
+              <DropdownMenu.Trigger className="flex items-center justify-center">
+                <Avatar
+                  src={data.user.image || ""}
+                  alt={data.user.name || ""}
+                  fallback="YL"
+                />
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content>
+                <DropdownMenu.Item>
+                  <User size={18} />
+                  <span>Profile</span>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item onClick={onLogout}>
+                  <LogOut size={18} />
+                  <span>Logout</span>
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu>
           ) : (
-            status !== "loading" && <Button onClick={onSignIn}>Sign in</Button>
+            status !== "loading" && (
+              <Button onClick={onSignIn} className="py-1 px-4">
+                Sign in
+              </Button>
+            )
           )}
         </div>
       </div>

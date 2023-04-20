@@ -4,7 +4,7 @@ import { AvatarProps } from "./Avatar.types";
 
 export default function Avatar({ src, alt, ...props }: AvatarProps) {
   return (
-    <Root className="w-6 aspect-square rounded-full overflow-hidden">
+    <Root className="w-6 aspect-square inline-block rounded-full overflow-hidden">
       <Image
         src={src}
         alt={alt}

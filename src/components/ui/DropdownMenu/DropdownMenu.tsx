@@ -3,9 +3,11 @@
 import {
   Root,
   Trigger,
+  Separator,
+  Label,
   DropdownMenuProps,
 } from "@radix-ui/react-dropdown-menu";
-import { DropdownMenuContent } from "./components";
+import { DropdownMenuContent, DropdownMenuItem } from "./components";
 
 // import { DropdownMenuProps } from "./DropdownMenu.types";
 
@@ -18,3 +20,6 @@ export default function DropdownMenu({
 
 DropdownMenu.Trigger = Trigger;
 DropdownMenu.Content = DropdownMenuContent;
+DropdownMenu.Item = DropdownMenuItem;
+DropdownMenu.Separator = Separator;
+DropdownMenu.Label = Label;
