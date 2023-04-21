@@ -1,9 +1,9 @@
-import { ProductCardList } from "@/components/shop";
-import { fetchCollections } from "@/services/collections.service";
+import { ProductCardList } from '@/components/shop';
+import { fetchCollections } from '@/services/collections.service';
 
 export default async function Home() {
-  const bestSellerCollection = fetchCollections("best-seller");
-  const popularCollection = fetchCollections("popular");
+  const bestSellerCollection = fetchCollections('best-seller');
+  const popularCollection = fetchCollections('popular');
 
   const [bestSellerCollectionData, popularCollectionData] = await Promise.all([
     bestSellerCollection,

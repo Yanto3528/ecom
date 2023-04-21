@@ -1,4 +1,4 @@
-import { ProductEntity } from "@/entities/product.entity";
+import { ProductEntity } from '@/entities/product.entity';
 
 export interface ProductCardListProps {
   title?: string;

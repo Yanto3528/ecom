@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import { Button, InputNumber } from "@/components/ui";
-import { useCartStore } from "@/store/cart.store";
-import { formatCurrency } from "@/lib/utils";
-import { useState } from "react";
+import { useState } from 'react';
 
-import { ProductDetailsProps } from "./ProductDetails.types";
+import { Button, InputNumber } from '@/components/ui';
+import { formatCurrency } from '@/lib/utils';
+import { useCartStore } from '@/store/cart.store';
+
+import { ProductDetailsProps } from './ProductDetails.types';
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -21,18 +22,14 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
   return (
     <div className="flex-1">
-      <span className="text-gray-500 uppercase text-xs">
-        {product.category?.name}
-      </span>
-      <h1 className="text-3xl font-bold mb-6">{product.name}</h1>
+      <span className="text-xs uppercase text-gray-500">{product.category?.name}</span>
+      <h1 className="mb-6 text-3xl font-bold">{product.name}</h1>
       <p>{product.description}</p>
-      <p className="font-bold text-2xl mt-8">{formatCurrency(product.price)}</p>
+      <p className="mt-8 text-2xl font-bold">{formatCurrency(product.price)}</p>
       <div className="my-4">
-        <label htmlFor="quantity" className="block mb-2">
-          Quantity{" "}
-          {product.quantity <= 0 && (
-            <span className="text-red-500 font-bold">Out of stock</span>
-          )}
+        <label htmlFor="quantity" className="mb-2 block">
+          Quantity{' '}
+          {product.quantity <= 0 && <span className="font-bold text-red-500">Out of stock</span>}
         </label>
         <InputNumber
           placeholder="Select quantity"

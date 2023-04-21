@@ -1,29 +1,29 @@
-import { Home, Package, Boxes, Tag, ShoppingCart } from "lucide-react";
+import { Home, Package, Boxes, Tag, ShoppingCart } from 'lucide-react';
 
 export const navItems = [
   {
-    title: "Home",
+    title: 'Home',
     icon: Home,
-    href: "/dashboard",
+    href: '/dashboard',
   },
   {
-    title: "Products",
+    title: 'Products',
     icon: Package,
-    href: "/dashboard/products",
+    href: '/dashboard/products',
   },
   {
-    title: "Categories",
+    title: 'Categories',
     icon: Tag,
-    href: "/dashboard/categories",
+    href: '/dashboard/categories',
   },
   {
-    title: "Collections",
+    title: 'Collections',
     icon: Boxes,
-    href: "/dashboard/collections",
+    href: '/dashboard/collections',
   },
   {
-    title: "Orders",
+    title: 'Orders',
     icon: ShoppingCart,
-    href: "/dashboard/orders",
+    href: '/dashboard/orders',
   },
 ];

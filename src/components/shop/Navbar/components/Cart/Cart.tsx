@@ -1,24 +1,26 @@
-"use client";
+'use client';
 
-import { useMemo } from "react";
-import { ShoppingBag } from "lucide-react";
+import { useMemo } from 'react';
 
-import { useCartStore } from "@/store/cart.store";
-import { useStore } from "@/hooks/common/use-store";
-import Link from "next/link";
+import { ShoppingBag } from 'lucide-react';
+import Link from 'next/link';
+
+import { useStore } from '@/hooks/common/use-store';
+import { useCartStore } from '@/store/cart.store';
 
 export default function Cart() {
   const cartItems = useStore(useCartStore, (state) => state.items);
 
-  const totalItems = useMemo(() => {
-    return cartItems?.reduce((acc, item) => acc + item.quantity, 0);
-  }, [cartItems]);
+  const totalItems = useMemo(
+    () => cartItems?.reduce((acc, item) => acc + item.quantity, 0),
+    [cartItems]
+  );
 
   return (
     <Link href="/cart" className="relative">
       <ShoppingBag />
       {totalItems && totalItems > 0 ? (
-        <span className="absolute top-0 right-0 bg-primary rounded-full flex items-center justify-center w-4 h-4 translate-x-1/2 -translate-y-1/2 text-white text-xxs">
+        <span className="absolute right-0 top-0 flex h-4 w-4 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-primary text-xxs text-white">
           {totalItems}
         </span>
       ) : null}

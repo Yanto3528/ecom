@@ -1,9 +1,9 @@
-import { NextApiHandler } from "next";
-import { z } from "zod";
+import { NextApiHandler } from 'next';
+import { z } from 'zod';
 
-import { prisma } from "@/lib/prisma";
-import { validate, catchAsync } from "@/lib/api-middlewares";
-import { productInclude } from "@/entities/product.entity";
+import { productInclude } from '@/entities/product.entity';
+import { validate, catchAsync } from '@/lib/api-middlewares';
+import { prisma } from '@/lib/prisma';
 
 const updateProductSchema = z.object({
   name: z.string().optional(),
@@ -25,7 +25,7 @@ const getProduct: NextApiHandler = async (req, res) => {
   });
 
   return res.status(200).json({
-    status: "success",
+    status: 'success',
     data: product,
     pagination: null,
   });
@@ -33,14 +33,7 @@ const getProduct: NextApiHandler = async (req, res) => {
 
 const updateProduct: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
-  const {
-    name,
-    slug: bodySlug,
-    description,
-    price,
-    quantity,
-    categoryId,
-  } = req.body;
+  const { name, slug: bodySlug, description, price, quantity, categoryId } = req.body;
 
   const product = await prisma.product.update({
     where: {
@@ -62,7 +55,7 @@ const updateProduct: NextApiHandler = async (req, res) => {
   });
 
   return res.status(200).json({
-    status: "success",
+    status: 'success',
     data: product,
   });
 };
@@ -77,23 +70,23 @@ const deleteProduct: NextApiHandler = async (req, res) => {
   });
 
   return res.status(200).json({
-    status: "success",
+    status: 'success',
     data: null,
   });
 };
 
 const handler: NextApiHandler = (req, res) => {
   switch (req.method) {
-    case "GET":
+    case 'GET':
       return catchAsync(req, res, getProduct);
-    case "PUT":
+    case 'PUT':
       return validate(req, res, updateProductSchema, updateProduct);
-    case "DELETE":
+    case 'DELETE':
       return catchAsync(req, res, deleteProduct);
     default:
       return res.status(405).json({
-        status: "error",
-        errors: [{ message: "Method not allowed" }],
+        status: 'error',
+        errors: [{ message: 'Method not allowed' }],
       });
   }
 };

@@ -1,16 +1,16 @@
-import { AuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { AuthOptions } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from '@/lib/prisma';
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   pages: {
-    signIn: "/auth/login",
+    signIn: '/auth/login',
   },
   providers: [
     GoogleProvider({
@@ -86,7 +86,7 @@ export const authOptions: AuthOptions = {
       };
     },
     redirect() {
-      return "/";
+      return '/';
     },
   },
 };

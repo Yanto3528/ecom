@@ -1,14 +1,11 @@
-"use client";
+'use client';
 
-import { FormEventHandler } from "react";
-import {
-  PaymentElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+import { FormEventHandler } from 'react';
 
-import { Button } from "@/components/ui";
-import { useSession } from "next-auth/react";
+import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useSession } from 'next-auth/react';
+
+import { Button } from '@/components/ui';
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -25,17 +22,17 @@ export default function CheckoutForm() {
     const returnUrl = `${window.origin}/checkout/success`;
 
     const result = await stripe.confirmPayment({
-      //`Elements` instance that was used to create the Payment Element
+      // `Elements` instance that was used to create the Payment Element
       elements,
       confirmParams: {
         return_url: returnUrl,
-        receipt_email: data?.user.email || "",
+        receipt_email: data?.user.email || '',
       },
     });
 
     if (result.error) {
       // Show error to your customer (for example, payment details incomplete)
-      console.log(result.error.message);
+      console.log(result.error.message); // eslint-disable-line no-console
     } else {
       // Your customer will be redirected to your `return_url`. For some payment
       // methods like iDEAL, your customer will be redirected to an intermediate
@@ -46,7 +43,7 @@ export default function CheckoutForm() {
   return (
     <form onSubmit={handleSubmit} className="flex-1">
       <PaymentElement />
-      <Button className="w-full mt-8">Pay</Button>
+      <Button className="mt-8 w-full">Pay</Button>
     </form>
   );
 }

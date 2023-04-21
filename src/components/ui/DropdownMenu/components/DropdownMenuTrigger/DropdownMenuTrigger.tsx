@@ -1,7 +1,8 @@
-import { Trigger } from "@radix-ui/react-dropdown-menu";
+import { Trigger } from '@radix-ui/react-dropdown-menu';
 
-import { DropdownMenuTriggerProps } from "./DropdownMenuTrigger.types";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+
+import { DropdownMenuTriggerProps } from './DropdownMenuTrigger.types';
 
 export default function DropdownMenuTrigger({
   children,
@@ -9,7 +10,7 @@ export default function DropdownMenuTrigger({
   ...props
 }: DropdownMenuTriggerProps) {
   return (
-    <Trigger className={cn("outline-none focus:ring-2 rounded-md", className)}>
+    <Trigger className={cn('rounded-md outline-none focus:ring-2', className)} {...props}>
       {children}
     </Trigger>
   );

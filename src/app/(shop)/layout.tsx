@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-import { Navbar, Footer } from "@/components/shop";
+import { Navbar, Footer } from '@/components/shop';
 
 export default function ShopLayout({ children }: { children: ReactNode }) {
   return (

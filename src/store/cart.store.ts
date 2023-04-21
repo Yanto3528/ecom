@@ -1,7 +1,7 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
-import { ProductEntity } from "@/entities/product.entity";
+import { ProductEntity } from '@/entities/product.entity';
 
 interface CartSlice {
   items: {
@@ -76,9 +76,7 @@ export const useCartStore = create<CartSlice>()(
       items: [],
       addItem: (quantity, product) =>
         set((state) => {
-          const existingItem = state.items.find(
-            (item) => item.product.id === product.id
-          );
+          const existingItem = state.items.find((item) => item.product.id === product.id);
 
           if (!existingItem) {
             return {
@@ -112,22 +110,18 @@ export const useCartStore = create<CartSlice>()(
       incrementQuantity: (product) =>
         set((state) => ({
           items: state.items.map((item) =>
-            item.product.id === product.id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
+            item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
           ),
         })),
       decrementQuantity: (product) =>
         set((state) => ({
           items: state.items.map((item) =>
-            item.product.id === product.id
-              ? { ...item, quantity: item.quantity - 1 }
-              : item
+            item.product.id === product.id ? { ...item, quantity: item.quantity - 1 } : item
           ),
         })),
     }),
     {
-      name: "cart",
+      name: 'cart',
     }
   )
 );

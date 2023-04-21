@@ -1,35 +1,32 @@
-"use client";
+'use client';
 
-import { useMemo } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useMemo } from 'react';
 
-import { useCartStore } from "@/store/cart.store";
-import { useStore } from "@/hooks/common";
-import { formatCurrency } from "@/lib/utils";
-import { Button } from "@/components/ui";
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+
+import { Button } from '@/components/ui';
+import { useStore } from '@/hooks/common';
+import { formatCurrency } from '@/lib/utils';
+import { useCartStore } from '@/store/cart.store';
 
 export default function Summary() {
   const cartItems = useStore(useCartStore, (state) => state.items);
   const { data } = useSession();
   const router = useRouter();
 
-  const subtotal = useMemo(() => {
-    return (
-      cartItems?.reduce(
-        (acc, item) => acc + item.quantity * item.product.price,
-        0
-      ) || 0
-    );
-  }, [cartItems]);
+  const subtotal = useMemo(
+    () => cartItems?.reduce((acc, item) => acc + item.quantity * item.product.price, 0) || 0,
+    [cartItems]
+  );
 
   const onCheckout = () => {
     if (data?.user) {
-      router.push("/checkout");
+      router.push('/checkout');
       return;
     }
 
-    router.push("/auth/login");
+    router.push('/auth/login');
   };
 
   if (cartItems?.length === 0) {
@@ -38,8 +35,8 @@ export default function Summary() {
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="p-8 border min-w-[20rem] border-gray-200 rounded-lg">
-        <h2 className="text-2xl font-bold mb-4">Summary</h2>
+      <div className="min-w-[20rem] rounded-lg border border-gray-200 p-8">
+        <h2 className="mb-4 text-2xl font-bold">Summary</h2>
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <p>Subtotal</p>
@@ -51,14 +48,12 @@ export default function Summary() {
           </div>
         </div>
         <hr className="my-4" />
-        <div className="mt-6 flex items-center font-bold text-xl justify-between">
+        <div className="mt-6 flex items-center justify-between text-xl font-bold">
           <p>Total</p>
           <span>{formatCurrency(subtotal)}</span>
         </div>
       </div>
-      <Button onClick={onCheckout}>
-        {data?.user ? "Checkout" : "Sign in to checkout"}
-      </Button>
+      <Button onClick={onCheckout}>{data?.user ? 'Checkout' : 'Sign in to checkout'}</Button>
     </div>
   );
 }

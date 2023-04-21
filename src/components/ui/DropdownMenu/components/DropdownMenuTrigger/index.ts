@@ -1,1 +1,1 @@
-export { default } from "./DropdownMenuTrigger";
+export { default } from './DropdownMenuTrigger';

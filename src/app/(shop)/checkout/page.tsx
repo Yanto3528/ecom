@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import { StripeElements } from "@/components/shop";
-import { useCreatePaymentIntentMutation } from "@/hooks/services/stripe.service.hooks";
-import { useStore } from "@/hooks/common";
-import { useCartStore } from "@/store/cart.store";
+import { StripeElements } from '@/components/shop';
+import { useStore } from '@/hooks/common';
+import { useCreatePaymentIntentMutation } from '@/hooks/services/stripe.service.hooks';
+import { useCartStore } from '@/store/cart.store';
 
-import { CheckoutForm, CheckoutSummary } from "./components";
+import { CheckoutForm, CheckoutSummary } from './components';
 
 export default function Checkout() {
   const cartItems = useStore(useCartStore, (state) => state.items);
@@ -27,7 +27,7 @@ export default function Checkout() {
 
   return (
     <main className="container">
-      <h1 className="text-3xl font-bold mb-10">Checkout</h1>
+      <h1 className="mb-10 text-3xl font-bold">Checkout</h1>
       {clientSecret && (
         <div className="flex gap-10">
           <StripeElements clientSecret={clientSecret}>

@@ -1,5 +1,6 @@
-import { Prisma } from "@prisma/client";
-import { productInclude } from "./product.entity";
+import { Prisma } from '@prisma/client';
+
+import { productInclude } from './product.entity';
 
 export type CollectionEntity = Prisma.CollectionGetPayload<{
   include: {

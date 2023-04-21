@@ -1,4 +1,4 @@
-import { CartTable, Summary } from "./components";
+import { CartTable, Summary } from './components';
 
 export default function Cart() {
   return (

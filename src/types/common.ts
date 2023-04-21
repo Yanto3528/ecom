@@ -1,5 +1,5 @@
 export interface PaginatedResponse<T> {
-  status: "success" | "error";
+  status: 'success' | 'error';
   data: T[];
   pagination: {
     totalCount: number;

@@ -1,5 +1,6 @@
-import Image from "next/image";
-import { ProductImagesProps } from "./ProductImages.types";
+import Image from 'next/image';
+
+import { ProductImagesProps } from './ProductImages.types';
 
 export default function ProductImages({ images }: ProductImagesProps) {
   return (

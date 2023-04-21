@@ -1,21 +1,10 @@
-"use client";
+'use client';
 
-import {
-  Root,
-  Separator,
-  Label,
-  DropdownMenuProps,
-} from "@radix-ui/react-dropdown-menu";
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./components";
+import { Root, Separator, Label, DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
-export default function DropdownMenu({
-  children,
-  ...props
-}: DropdownMenuProps) {
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './components';
+
+export default function DropdownMenu({ children, ...props }: DropdownMenuProps) {
   return <Root {...props}>{children}</Root>;
 }
 

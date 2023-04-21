@@ -1,1 +1,1 @@
-export { default } from "./StripeElements";
+export { default } from './StripeElements';

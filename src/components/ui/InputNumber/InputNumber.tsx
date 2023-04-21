@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import { ChangeEventHandler, forwardRef } from "react";
+import { ChangeEventHandler, forwardRef } from 'react';
 
-import Input from "../Input";
-import { InputNumberProps } from "./InputNumber.types";
+import Input from '../Input';
+
+import { InputNumberProps } from './InputNumber.types';
 
 const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
   ({ min, max, onChange, ...props }, ref) => {
@@ -14,18 +15,11 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
     };
 
     return (
-      <Input
-        type="number"
-        ref={ref}
-        min={min}
-        max={max}
-        onChange={onInputChange}
-        {...props}
-      />
+      <Input type="number" ref={ref} min={min} max={max} onChange={onInputChange} {...props} />
     );
   }
 );
 
-InputNumber.displayName = "InputNumber";
+InputNumber.displayName = 'InputNumber';
 
 export default InputNumber;

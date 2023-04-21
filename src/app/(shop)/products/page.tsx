@@ -1,7 +1,5 @@
-import { products } from "@/mock-data/products";
-
-import { ProductCardList } from "@/components/shop";
-import { fetchProducts } from "@/services/products.service";
+import { ProductCardList } from '@/components/shop';
+import { fetchProducts } from '@/services/products.service';
 
 export default async function Products() {
   const response = await fetchProducts();
@@ -12,7 +10,7 @@ export default async function Products() {
 
   return (
     <main className="container">
-      <h1 className="text-3xl font-bold mb-8">All Products</h1>
+      <h1 className="mb-8 text-3xl font-bold">All Products</h1>
       <ProductCardList products={response.data} />
     </main>
   );

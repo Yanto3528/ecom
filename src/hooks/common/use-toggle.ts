@@ -1,11 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 type ToggleFn = () => void;
 
-type UseToggleReturn = [
-  boolean,
-  { open: ToggleFn; close: ToggleFn; toggle: ToggleFn }
-];
+type UseToggleReturn = [boolean, { open: ToggleFn; close: ToggleFn; toggle: ToggleFn }];
 
 export const useToggle = (initialValue = false): UseToggleReturn => {
   const [show, setShow] = useState(initialValue);

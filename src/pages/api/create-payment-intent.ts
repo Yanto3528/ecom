@@ -1,12 +1,12 @@
-import { NextApiHandler } from "next";
-import { z } from "zod";
-import { getServerSession } from "next-auth";
-import { Product } from "@prisma/client";
+import { Product } from '@prisma/client';
+import { NextApiHandler } from 'next';
+import { getServerSession } from 'next-auth';
+import { z } from 'zod';
 
-import { stripe } from "@/lib/stripe";
-import { validate } from "@/lib/api-middlewares";
-import { prisma } from "@/lib/prisma";
-import { authOptions } from "@/lib/next-auth";
+import { validate } from '@/lib/api-middlewares';
+import { authOptions } from '@/lib/next-auth';
+import { prisma } from '@/lib/prisma';
+import { stripe } from '@/lib/stripe';
 
 interface CartItem {
   quantity: number;
@@ -19,7 +19,7 @@ const createPaymentIntentSchema = z.object({
 
 const getStripePriceFromItems = (items: CartItem[], products: Product[]) => {
   const totalPrice = items.reduce((acc, item) => {
-    const product = products.find((product) => product.id === item.productId);
+    const product = products.find((productDetails) => productDetails.id === item.productId);
     if (!product) {
       return acc;
     }
@@ -44,8 +44,8 @@ export const createPaymentIntent: NextApiHandler = async (req, res) => {
 
   if (session && !session?.user.stripeCustomerId) {
     const customer = await stripe.customers.create({
-      email: session?.user.email || "",
-      name: session?.user.name || "",
+      email: session?.user.email || '',
+      name: session?.user.name || '',
     });
 
     session.user.stripeCustomerId = customer.id;
@@ -57,7 +57,7 @@ export const createPaymentIntent: NextApiHandler = async (req, res) => {
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: getStripePriceFromItems(items, products),
-    currency: "usd",
+    currency: 'usd',
     automatic_payment_methods: {
       enabled: true,
     },
@@ -74,19 +74,19 @@ export const createPaymentIntent: NextApiHandler = async (req, res) => {
   });
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
     data: paymentIntent.client_secret,
   });
 };
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
-    case "POST":
+    case 'POST':
       return validate(req, res, createPaymentIntentSchema, createPaymentIntent);
     default:
       return res.status(405).json({
-        status: "error",
-        errors: [{ message: "Method not allowed" }],
+        status: 'error',
+        errors: [{ message: 'Method not allowed' }],
       });
   }
 };

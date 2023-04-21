@@ -1,3 +1,3 @@
-import { InputProps } from "../Input/Input.types";
+import { InputProps } from '../Input/Input.types';
 
-export interface InputPasswordProps extends Omit<InputProps, "type"> {}
+export interface InputPasswordProps extends Omit<InputProps, 'type'> {}

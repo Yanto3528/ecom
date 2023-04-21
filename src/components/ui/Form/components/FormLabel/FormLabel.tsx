@@ -1,13 +1,10 @@
-import { cn } from "@/lib/utils";
-import { FormLabelProps } from "./FormLabel.types";
+import { cn } from '@/lib/utils';
 
-export default function FormLabel({
-  children,
-  className,
-  ...props
-}: FormLabelProps) {
+import { FormLabelProps } from './FormLabel.types';
+
+export default function FormLabel({ children, className, htmlFor, ...props }: FormLabelProps) {
   return (
-    <label className={cn("font-bold block mb-2", className)} {...props}>
+    <label className={cn('mb-2 block font-bold', className)} htmlFor={htmlFor} {...props}>
       {children}
     </label>
   );

@@ -1,10 +1,9 @@
-import { VariantProps } from "class-variance-authority";
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef } from 'react';
 
-import { inputStyles } from "./Input.styles";
+import { VariantProps } from 'class-variance-authority';
+
+import { inputStyles } from './Input.styles';
 
 type InputStylesProps = VariantProps<typeof inputStyles>;
 
-export interface InputProps
-  extends ComponentPropsWithoutRef<"input">,
-    InputStylesProps {}
+export interface InputProps extends ComponentPropsWithoutRef<'input'>, InputStylesProps {}

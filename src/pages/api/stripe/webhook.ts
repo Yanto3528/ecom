@@ -1,39 +1,35 @@
-import { NextApiHandler } from "next";
-import { buffer } from "micro";
+import { buffer } from 'micro';
+import { NextApiHandler } from 'next';
 
-import { stripe } from "@/lib/stripe";
-import { handleChargeSucceeded } from "@/lib/webhook";
+import { stripe } from '@/lib/stripe';
+import { handleChargeSucceeded } from '@/lib/webhook';
 
-const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
+const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET || '';
 
 export const config = { api: { bodyParser: false } };
 
 const handleStripeWebhook: NextApiHandler = async (req, res) => {
-  const signature = req.headers["stripe-signature"] as string;
+  const signature = req.headers['stripe-signature'] as string;
   const reqBuffer = await buffer(req);
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      reqBuffer,
-      signature,
-      endpointSecret
-    );
+    event = stripe.webhooks.constructEvent(reqBuffer, signature, endpointSecret);
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "";
+    const errorMessage = error instanceof Error ? error.message : '';
     return res.status(400).json({
-      status: "error",
+      status: 'error',
       errors: [{ message: `Webhook Error: ${errorMessage}` }],
     });
   }
 
   switch (event.type) {
-    case "charge.succeeded": {
+    case 'charge.succeeded': {
       handleChargeSucceeded(event);
       break;
     }
     default:
-      console.log(`Unhandled event type ${event.type}`);
+      console.log(`Unhandled event type ${event.type}`); // eslint-disable-line no-console
       break;
   }
 
@@ -42,12 +38,12 @@ const handleStripeWebhook: NextApiHandler = async (req, res) => {
 
 const handler: NextApiHandler = (req, res) => {
   switch (req.method) {
-    case "POST":
+    case 'POST':
       return handleStripeWebhook(req, res);
     default:
       return res.status(405).json({
-        status: "error",
-        errors: [{ message: "Method not allowed" }],
+        status: 'error',
+        errors: [{ message: 'Method not allowed' }],
       });
   }
 };

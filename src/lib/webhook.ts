@@ -1,6 +1,6 @@
-import Stripe from "stripe";
+import Stripe from 'stripe';
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from '@/lib/prisma';
 
 interface StripeMetadata {
   userId: string;
@@ -25,26 +25,24 @@ export const handleChargeSucceeded = async (event: Stripe.Event) => {
     },
   });
 
-  let orderItems: any = [];
+  const orderItems: any = [];
   metadataProducts.forEach((product) => {
-    const productDetails = products.find(
-      (productDetails) => productDetails.id === product.productId
-    );
+    const productData = products.find((productDetails) => productDetails.id === product.productId);
 
-    if (!productDetails) {
+    if (!productData) {
       return;
     }
 
     orderItems.push({
       quantity: product.quantity,
-      price: productDetails?.price || 0,
-      name: productDetails.name,
+      price: productData?.price || 0,
+      name: productData.name,
     });
   });
 
   await prisma.order.create({
     data: {
-      paymentStatus: "COMPLETED",
+      paymentStatus: 'COMPLETED',
       userId: metadata.userId,
       orderItems: {
         createMany: {

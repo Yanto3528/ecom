@@ -1,6 +1,6 @@
-import { fetchProductBySlug } from "@/services/products.service";
+import { fetchProductBySlug } from '@/services/products.service';
 
-import { ProductImages, ProductDetails } from "./components";
+import { ProductImages, ProductDetails } from './components';
 
 interface ProductDetailProps {
   params: { slug: string };
@@ -15,7 +15,7 @@ async function ProductDetail({ params }: ProductDetailProps) {
   }
 
   return (
-    <main className="container flex justify-between gap-10 items-start">
+    <main className="container flex items-start justify-between gap-10">
       <ProductImages images={product.images || []} />
       <ProductDetails product={product} />
     </main>

@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import { signIn } from "next-auth/react";
+import { useMutation } from '@tanstack/react-query';
+import { signIn } from 'next-auth/react';
 
 interface SignInCredentialsPayload {
   email: string;
@@ -7,12 +7,12 @@ interface SignInCredentialsPayload {
 }
 
 export const useSignInCredentialsMutation = () => {
-  const mutation = useMutation((payload: SignInCredentialsPayload) => {
-    return signIn("credentials", {
+  const mutation = useMutation((payload: SignInCredentialsPayload) =>
+    signIn('credentials', {
       ...payload,
-      callbackUrl: "/",
-    });
-  });
+      callbackUrl: '/',
+    })
+  );
 
   return mutation;
 };

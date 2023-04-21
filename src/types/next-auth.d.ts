@@ -1,10 +1,9 @@
-import type { Session, User } from "next-auth";
-import type { JWT } from "next-auth/jwt";
-import { ROLE } from "@prisma/client";
+import { ROLE } from '@prisma/client';
+import type { User } from 'next-auth';
 
 type UserId = string;
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT {
     id: UserId;
     stripeCustomerId: string | null;
@@ -12,7 +11,7 @@ declare module "next-auth/jwt" {
   }
 }
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
     user: User & {
       id: UserId;

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 // import { useState } from "react";
 // import { useForm } from "react-hook-form";
@@ -7,8 +7,8 @@
 
 // import { Input, InputPassword, Form, Button } from "@/components/ui";
 // import { useSignInCredentialsMutation } from "@/hooks/auth";
-import { signIn, useSession } from "next-auth/react";
-import Image from "next/image";
+import Image from 'next/image';
+import { signIn } from 'next-auth/react';
 
 // interface FormValues {
 //   email: string;
@@ -41,7 +41,7 @@ export default function Login() {
   // });
 
   const onSignInWithGoogle = () => {
-    signIn("google");
+    signIn('google');
   };
 
   // const { mutate, isLoading } = useSignInCredentialsMutation();
@@ -53,12 +53,12 @@ export default function Login() {
   return (
     <div className="container flex flex-col items-center justify-center">
       <div className="mb-8 text-center">
-        <h1 className="font-bold text-3xl mb-2">Sign In</h1>
-        <p className="max-w-xs mx-auto">
+        <h1 className="mb-2 text-3xl font-bold">Sign In</h1>
+        <p className="mx-auto max-w-xs">
           Sign in now and receive special discount code just for you
         </p>
       </div>
-      <button onClick={onSignInWithGoogle}>
+      <button type="button" onClick={onSignInWithGoogle}>
         <Image
           src="/images/google-signin-button.png"
           alt="signin with google"

@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
-import Spinner from "../Spinner";
-import { ButtonProps } from "./Button.types";
-import { buttonStyles } from "./Button.styles";
+import Spinner from '../Spinner';
+
+import { buttonStyles } from './Button.styles';
+import { ButtonProps } from './Button.types';
 
 export default function Button({
   children,
@@ -16,6 +17,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
+      type="button"
       className={cn(buttonStyles({ variant, className }))}
       disabled={disabled || loading}
       {...props}

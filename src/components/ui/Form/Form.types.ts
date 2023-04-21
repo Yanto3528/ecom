@@ -1,3 +1,3 @@
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef } from 'react';
 
-export interface FormProps extends ComponentPropsWithoutRef<"form"> {}
+export interface FormProps extends ComponentPropsWithoutRef<'form'> {}
