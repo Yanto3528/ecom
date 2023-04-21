@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Input, InputNumber } from '@/components/ui';
+import { Button, Input, Textarea, InputNumber } from '@/components/ui';
 
 interface FormValues {
   name: string;
@@ -15,7 +15,7 @@ interface FormValues {
 
 const schema = z.object({
   name: z.string().nonempty('Name is required'),
-  description: z.string(),
+  description: z.string().nonempty('Description is required'),
   price: z.number().nonnegative('Price must be greater than 0'),
   quantity: z.number().nonnegative('Quantity must be greater than 0'),
 });
@@ -44,10 +44,11 @@ export default function GeneralInfoForm() {
           error={errors.name?.message}
           {...register('name')}
         />
-        <Input
+        <Textarea
           label="Description"
           placeholder="Enter product description"
           error={errors.description?.message}
+          rows={5}
           {...register('description')}
         />
         <Controller
