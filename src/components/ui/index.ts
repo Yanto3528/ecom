@@ -7,3 +7,4 @@ export { default as Form } from './Form';
 export { default as Spinner } from './Spinner';
 export { default as Avatar } from './Avatar';
 export { default as Divider } from './Divider';
+export { default as Table } from './Table';

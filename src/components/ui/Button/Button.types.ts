@@ -8,4 +8,5 @@ type ButtonStylesProps = VariantProps<typeof buttonStyles>;
 
 export interface ButtonProps extends ComponentPropsWithoutRef<'button'>, ButtonStylesProps {
   loading?: boolean;
+  href?: string;
 }

@@ -6,7 +6,7 @@ export const buttonStyles = cva(
     variants: {
       variant: {
         primary:
-          'bg-primary text-white enabled:hover:bg-primary-700-700 enabled:active:bg-primary-800',
+          'bg-primary text-white hover:bg-primary-700 enabled:hover:bg-primary-700 enabled:active:bg-primary-800',
       },
     },
     defaultVariants: {

@@ -1,8 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
+import { PrismaClient } from '@prisma/client';
 
-import { categories } from "../src/mock-data/categories";
-import { products, productImages } from "../src/mock-data/products";
-import { collections } from "../src/mock-data/collections";
+import { categories } from '../src/mock-data/categories';
+import { collections } from '../src/mock-data/collections';
+import { products, productImages } from '../src/mock-data/products';
 
 const prisma = new PrismaClient();
 

@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import { cn } from '@/lib/utils';
 
 import Spinner from '../Spinner';
@@ -13,8 +15,17 @@ export default function Button({
   variant,
   disabled,
   loading,
+  href,
   ...props
 }: ButtonProps) {
+  if (href) {
+    return (
+      <Link className={cn(buttonStyles({ variant, className }))} href={href || ''}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <button
       type="button"
@@ -22,7 +33,6 @@ export default function Button({
       disabled={disabled || loading}
       {...props}
     >
-      {/* {loading ? <Spinner /> : children} */}
       {loading && <Spinner />}
       {children}
     </button>
