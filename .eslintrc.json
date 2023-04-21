@@ -34,11 +34,10 @@
           },
           {
             "pattern": "@/**",
-            "group": "internal",
-            "position": "after"
+            "group": "internal"
           }
         ],
-        "pathGroupsExcludedImportTypes": ["react", "internal"],
+        "pathGroupsExcludedImportTypes": ["internal"],
         "newlines-between": "always",
         "alphabetize": {
           "order": "asc",

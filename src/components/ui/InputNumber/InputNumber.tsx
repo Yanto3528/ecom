@@ -9,7 +9,8 @@ import { InputNumberProps } from './InputNumber.types';
 const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
   ({ min, max, onChange, ...props }, ref) => {
     const onInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-      const value = Math.max(min, Math.min(max, Number(event.target.value)));
+      const maxValue = max ? Math.min(max, Number(event.target.value)) : Number(event.target.value);
+      const value = Math.max(min, maxValue);
 
       onChange?.(value);
     };
