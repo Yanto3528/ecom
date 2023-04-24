@@ -21,6 +21,7 @@ export default function Select({
   triggerProps: { className: triggerClassName, ...triggerProps } = {},
   itemContainerClassName,
   children,
+  onChange,
   ...props
 }: SelectProps) {
   return (
@@ -30,7 +31,7 @@ export default function Select({
           {label}
         </FormLabel>
       )}
-      <Root {...props}>
+      <Root onValueChange={onChange} {...props}>
         <FormElementWrapper
           size={size}
           colorScheme={colorScheme}

@@ -12,3 +12,11 @@ export interface Product {
   quantity: number;
   category: string;
 }
+
+export interface CreateProductPayload {
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  categoryId: number;
+}

@@ -38,7 +38,7 @@ const createProduct: NextApiHandler = async (req, res) => {
     data: {
       name,
       description,
-      price: price?.toFixed(2),
+      price: Number(price?.toFixed(2)),
       quantity,
       slug,
       category: {

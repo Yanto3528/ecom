@@ -1,16 +1,21 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, Input, Textarea, InputNumber, Select } from '@/components/ui';
+import { useCreateProductMutation } from '@/hooks/services/products.service.hooks';
+
+import { GeneralInfoFormProps } from './GeneralInfoForm.types';
 
 interface FormValues {
   name: string;
   description: string;
   price: number;
   quantity: number;
+  categoryId: string;
 }
 
 const schema = z.object({
@@ -18,9 +23,10 @@ const schema = z.object({
   description: z.string().nonempty('Description is required'),
   price: z.number().nonnegative('Price must be greater than 0'),
   quantity: z.number().nonnegative('Quantity must be greater than 0'),
+  categoryId: z.string().nonempty('Category is required'),
 });
 
-export default function GeneralInfoForm() {
+export default function GeneralInfoForm({ categories }: GeneralInfoFormProps) {
   const {
     register,
     control,
@@ -30,8 +36,20 @@ export default function GeneralInfoForm() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: FormValues) => {
-    console.log('data: ', data);
+  const router = useRouter();
+
+  const { mutateAsync, isLoading } = useCreateProductMutation();
+
+  const onSubmit = async (data: FormValues) => {
+    await mutateAsync({
+      name: data.name,
+      description: data.description,
+      price: data.price,
+      quantity: data.quantity,
+      categoryId: Number(data.categoryId),
+    });
+
+    router.push('/dashboard/products');
   };
 
   return (
@@ -69,6 +87,7 @@ export default function GeneralInfoForm() {
           render={({ field }) => (
             <InputNumber
               min={0}
+              step={0.01}
               label="Price"
               placeholder="Enter product price"
               error={errors.price?.message}
@@ -79,15 +98,29 @@ export default function GeneralInfoForm() {
           control={control}
           defaultValue={0}
         />
-        <Select label="Select category" placeholder="Select category">
-          <Select.Item value="1">Hello 1</Select.Item>
-          <Select.Item value="2">Hello 2</Select.Item>
-          <Select.Item value="3">Hello 3</Select.Item>
-          <Select.Item value="4">Hello 4</Select.Item>
-          <Select.Item value="5">Hello 5</Select.Item>
-        </Select>
-        <div className="h-[50rem]" />
-        <Button type="submit">Create product</Button>
+        <Controller
+          render={({ field: { onChange, value, name } }) => (
+            <Select
+              label="Select category"
+              placeholder="Select category"
+              error={errors.categoryId?.message}
+              onChange={onChange}
+              value={value}
+              name={name}
+            >
+              {categories.map((category) => (
+                <Select.Item key={category.id} value={category.id.toString()}>
+                  {category.name}
+                </Select.Item>
+              ))}
+            </Select>
+          )}
+          control={control}
+          name="categoryId"
+        />
+        <Button type="submit" loading={isLoading}>
+          Create product
+        </Button>
       </form>
     </div>
   );
