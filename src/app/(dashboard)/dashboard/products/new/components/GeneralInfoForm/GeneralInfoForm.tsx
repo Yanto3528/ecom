@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Input, Textarea, InputNumber } from '@/components/ui';
+import { Button, Input, Textarea, InputNumber, Select } from '@/components/ui';
 
 interface FormValues {
   name: string;
@@ -79,6 +79,14 @@ export default function GeneralInfoForm() {
           control={control}
           defaultValue={0}
         />
+        <Select label="Select category" placeholder="Select category">
+          <Select.Item value="1">Hello 1</Select.Item>
+          <Select.Item value="2">Hello 2</Select.Item>
+          <Select.Item value="3">Hello 3</Select.Item>
+          <Select.Item value="4">Hello 4</Select.Item>
+          <Select.Item value="5">Hello 5</Select.Item>
+        </Select>
+        <div className="h-[50rem]" />
         <Button type="submit">Create product</Button>
       </form>
     </div>

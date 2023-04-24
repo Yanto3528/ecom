@@ -9,3 +9,4 @@ export { default as Avatar } from './Avatar';
 export { default as Divider } from './Divider';
 export { default as Table } from './Table';
 export { default as Textarea } from './Textarea';
+export { default as Select } from './Select';
