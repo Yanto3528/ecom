@@ -11,7 +11,7 @@ export default async function CategoryDetail({ params: { slug } }: CategoryDetai
 
   return (
     <div>
-      <h1>Category Detail</h1>
+      <h1 className="mb-4">Category Detail</h1>
       <CategoryForm category={category} isEditing />
     </div>
   );
