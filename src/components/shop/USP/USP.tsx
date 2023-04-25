@@ -13,7 +13,7 @@ const usps = [
   },
   {
     image: '/images/low-price.png',
-    title: 'Price lower than others',
+    title: 'Lowest price',
     description: 'We offer the best price for our products. We guarantee it.',
   },
   {
