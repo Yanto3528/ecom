@@ -17,7 +17,7 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="mt-10 bg-gray-100 pt-10">
+    <footer className="bg-gray-100 pt-10">
       <div className="container flex gap-10">
         <Link className="font-black text-primary-600" href="/">
           TVAB

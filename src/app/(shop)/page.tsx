@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { ProductCardList } from '@/components/shop';
+import { ProductCardList, USP } from '@/components/shop';
 import { Button } from '@/components/ui';
 import { fetchCollections } from '@/services/collections.service';
 
@@ -36,7 +36,7 @@ export default async function Home() {
           <Button href="/products">Shop new arrival</Button>
         </div>
       </div>
-      <section className="container">
+      <section className="container py-10">
         <div className="flex flex-col gap-10">
           {bestSellerCollectionData && (
             <ProductCardList
@@ -52,6 +52,7 @@ export default async function Home() {
           )}
         </div>
       </section>
+      <USP />
     </main>
   );
 }

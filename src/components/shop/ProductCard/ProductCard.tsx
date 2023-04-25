@@ -6,14 +6,11 @@ import { formatCurrency } from '@/lib/utils';
 import { ProductCardProps } from './ProductCard.types';
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { slug, name, images, price } = product;
+  const { slug, name, images, price, category } = product;
 
   return (
-    <Link
-      href={`/products/${slug}`}
-      className="block h-full cursor-pointer overflow-hidden rounded-md bg-white shadow-md"
-    >
-      <div className="relative aspect-square w-full overflow-hidden">
+    <Link href={`/products/${slug}`} className="block h-full cursor-pointer overflow-hidden">
+      <div className="relative aspect-square w-full overflow-hidden rounded-md">
         <Image
           src={images?.[0].url || ''}
           alt={images?.[0].alt || ''}
@@ -21,9 +18,10 @@ export default function ProductCard({ product }: ProductCardProps) {
           className="object-cover transition-all duration-500 hover:scale-110"
         />
       </div>
-      <div className="p-4">
-        <h3 className="text-lg font-bold">{name}</h3>
-        <p className="text-gray-500">{formatCurrency(price)}</p>
+      <div className="flex flex-col gap-1 py-4">
+        <h3 className="truncate text-base font-normal">{name}</h3>
+        <p className="text-xxs uppercase text-gray-500">{category?.name}</p>
+        <p className="font-medium">{formatCurrency(price)}</p>
       </div>
     </Link>
   );
