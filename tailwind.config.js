@@ -1,19 +1,9 @@
-const colors = require("tailwindcss/colors");
+const colors = require('tailwindcss/colors');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    container: {
-      center: true,
-      padding: {
-        DEFAULT: "1rem",
-        sm: "1.5rem",
-        md: "2rem",
-        lg: "4rem",
-        xl: "10rem",
-      },
-    },
     extend: {
       colors: {
         primary: {
@@ -31,9 +21,13 @@ module.exports = {
         },
       },
       fontSize: {
-        xxs: ".625rem",
+        xxs: '.625rem',
       },
     },
   },
-  plugins: [require("tailwindcss-radix")(), require("tailwindcss-animate"), require('tailwind-scrollbar')({ nocompatible: true })],
+  plugins: [
+    require('tailwindcss-radix')(),
+    require('tailwindcss-animate'),
+    require('tailwind-scrollbar')({ nocompatible: true }),
+  ],
 };

@@ -1,10 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-
-import { Button } from '@/components/ui';
 
 import { Cart, AccountMenu } from './components';
 
@@ -25,21 +22,16 @@ const navItems = [
 
 export default function Navbar() {
   const { data, status } = useSession();
-  const router = useRouter();
-
-  const onSignIn = () => {
-    router.push('/auth/login');
-  };
 
   return (
-    <nav className="sticky top-0 z-10 mb-14 w-full bg-white py-6 shadow-sm">
+    <nav className="sticky top-0 z-10 mb-14 w-full bg-white py-2 shadow-sm">
       <div className="container flex items-center justify-between">
         <Link className="font-black text-primary-600" href="/">
           TVAB
         </Link>
         <ul className="flex items-center gap-4">
           {navItems.map((item) => (
-            <li key={item.label} className="transition-all hover:text-primary-500">
+            <li key={item.label} className="font-medium transition-all hover:text-primary-500">
               <Link href={item.href}>{item.label}</Link>
             </li>
           ))}
@@ -50,9 +42,12 @@ export default function Navbar() {
             <AccountMenu session={data} />
           ) : (
             status !== 'loading' && (
-              <Button onClick={onSignIn} className="px-4 py-1">
+              <Link
+                href="/auth/login"
+                className="py-2 font-medium transition-all hover:text-primary"
+              >
                 Sign in
-              </Button>
+              </Link>
             )
           )}
         </div>

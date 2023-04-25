@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.container {
+  @apply mx-auto max-w-[90rem] px-6 lg:px-10;
+}
+
 h1, h2, h3, h4, h5, h6 {
   @apply font-bold;
 }
