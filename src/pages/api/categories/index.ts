@@ -2,6 +2,7 @@ import { NextApiHandler } from 'next';
 import slugify from 'slugify';
 import { z } from 'zod';
 
+import { categoryInclude } from '@/entities/category.entity';
 import { validate, catchAsync } from '@/lib/api-middlewares';
 import { prisma } from '@/lib/prisma';
 
@@ -10,7 +11,9 @@ const createCategorySchema = z.object({
 });
 
 const getCategories: NextApiHandler = async (_, res) => {
-  const categories = await prisma.category.findMany();
+  const categories = await prisma.category.findMany({
+    include: categoryInclude,
+  });
 
   return res.status(200).json({
     status: 'success',
@@ -32,6 +35,7 @@ const createCategory: NextApiHandler = async (req, res) => {
       name,
       slug,
     },
+    include: categoryInclude,
   });
 
   return res.status(200).json({

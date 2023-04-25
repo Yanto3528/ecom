@@ -1,6 +1,7 @@
 import { NextApiHandler } from 'next';
 import { z } from 'zod';
 
+import { categoryInclude } from '@/entities/category.entity';
 import { validate, catchAsync } from '@/lib/api-middlewares';
 import { prisma } from '@/lib/prisma';
 
@@ -16,6 +17,7 @@ const getCategory: NextApiHandler = async (req, res) => {
     where: {
       slug: slug as string,
     },
+    include: categoryInclude,
   });
 
   return res.status(200).json({
@@ -37,6 +39,7 @@ const updateCategory: NextApiHandler = async (req, res) => {
       name,
       slug: bodySlug,
     },
+    include: categoryInclude,
   });
 
   return res.status(200).json({
