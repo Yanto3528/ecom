@@ -1,3 +1,5 @@
+'use client';
+
 import { Root, Trigger, Content, Value, Icon, Viewport, Portal } from '@radix-ui/react-select';
 import { ChevronDown } from 'lucide-react';
 

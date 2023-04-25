@@ -15,6 +15,18 @@ export const fetchClientProductBySlug = async (slug: string): Promise<ProductEnt
 export const createNewProduct = async (payload: CreateProductPayload): Promise<ProductEntity> =>
   api.post('/products', payload).then((response) => response.data.data);
 
+export const deleteProduct = async (slug: string): Promise<null> =>
+  api.delete(`/products/${slug}`).then((response) => response.data);
+
+export const updateProduct = async ({
+  slug,
+  payload,
+}: {
+  slug: string;
+  payload: Partial<CreateProductPayload>;
+}): Promise<ProductEntity> =>
+  api.put(`/products/${slug}`, payload).then((response) => response.data.data);
+
 // Called by Server component
 export const fetchProducts = async (): Promise<PaginatedResponse<ProductEntity>> => {
   try {

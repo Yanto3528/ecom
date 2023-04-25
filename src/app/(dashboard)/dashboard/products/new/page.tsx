@@ -1,6 +1,6 @@
 import { fetchCategories } from '@/services/categories.service';
 
-import { GeneralInfoForm } from './components';
+import { GeneralInfoForm } from '../components';
 
 export default async function NewProduct() {
   const { data: categories } = await fetchCategories();

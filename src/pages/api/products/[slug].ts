@@ -43,7 +43,7 @@ const updateProduct: NextApiHandler = async (req, res) => {
       name,
       slug: bodySlug,
       description,
-      price: price?.toFixed(2),
+      price: Number(price?.toFixed(2)),
       quantity,
       category: {
         connect: {

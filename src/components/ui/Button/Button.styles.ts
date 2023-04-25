@@ -5,12 +5,19 @@ export const buttonStyles = cva(
   {
     variants: {
       variant: {
+        solid:
+          'bg-primary text-white hover:bg-primary-700 enabled:hover:bg-primary-700 enabled:active:bg-primary-800',
+      },
+      colorScheme: {
         primary:
           'bg-primary text-white hover:bg-primary-700 enabled:hover:bg-primary-700 enabled:active:bg-primary-800',
+        danger:
+          'bg-red-500 text-white hover:bg-red-600 enabled:hover:bg-red-600 enabled:active:bg-red-700',
       },
     },
     defaultVariants: {
-      variant: 'primary',
+      variant: 'solid',
+      colorScheme: 'primary',
     },
   }
 );

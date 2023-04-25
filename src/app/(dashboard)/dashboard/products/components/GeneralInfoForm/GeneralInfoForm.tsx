@@ -6,7 +6,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button, Input, Textarea, InputNumber, Select } from '@/components/ui';
-import { useCreateProductMutation } from '@/hooks/services/products.service.hooks';
+import {
+  useCreateProductMutation,
+  useDeleteProductMutation,
+  useUpdateProductMutation,
+} from '@/hooks/services/products.service.hooks';
 
 import { GeneralInfoFormProps } from './GeneralInfoForm.types';
 
@@ -26,7 +30,7 @@ const schema = z.object({
   categoryId: z.string().nonempty('Category is required'),
 });
 
-export default function GeneralInfoForm({ categories }: GeneralInfoFormProps) {
+export default function GeneralInfoForm({ product, categories, isEditing }: GeneralInfoFormProps) {
   const {
     register,
     control,
@@ -34,21 +38,46 @@ export default function GeneralInfoForm({ categories }: GeneralInfoFormProps) {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      categoryId: product?.categoryId?.toString(),
+      name: product?.name,
+      description: product?.description,
+      price: product?.price,
+      quantity: product?.quantity,
+    },
   });
 
   const router = useRouter();
 
-  const { mutateAsync, isLoading } = useCreateProductMutation();
+  const { mutateAsync: mutateCreateProduct, isLoading: createProductLoading } =
+    useCreateProductMutation();
+  const { mutateAsync: mutateUpdateProduct, isLoading: updateProductLoading } =
+    useUpdateProductMutation();
+  const { mutateAsync: mutateDeleteProduct, isLoading: deleteProductLoading } =
+    useDeleteProductMutation();
 
   const onSubmit = async (data: FormValues) => {
-    await mutateAsync({
+    const payload = {
       name: data.name,
       description: data.description,
       price: data.price,
       quantity: data.quantity,
       categoryId: Number(data.categoryId),
-    });
+    };
+    if (isEditing) {
+      await mutateUpdateProduct({
+        slug: product?.slug || '',
+        payload,
+      });
+    } else {
+      await mutateCreateProduct(payload);
+    }
 
+    router.push('/dashboard/products');
+  };
+
+  const onDeleteProduct = async () => {
+    await mutateDeleteProduct(product?.slug || '');
     router.push('/dashboard/products');
   };
 
@@ -118,9 +147,21 @@ export default function GeneralInfoForm({ categories }: GeneralInfoFormProps) {
           control={control}
           name="categoryId"
         />
-        <Button type="submit" loading={isLoading}>
-          Create product
+        <Button
+          type="submit"
+          loading={createProductLoading || updateProductLoading || deleteProductLoading}
+        >
+          {isEditing ? 'Update product' : 'Create product'}
         </Button>
+        {isEditing && (
+          <Button
+            colorScheme="danger"
+            onClick={onDeleteProduct}
+            loading={createProductLoading || updateProductLoading || deleteProductLoading}
+          >
+            Delete
+          </Button>
+        )}
       </form>
     </div>
   );

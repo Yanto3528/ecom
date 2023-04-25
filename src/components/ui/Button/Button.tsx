@@ -13,6 +13,7 @@ export default function Button({
   children,
   className,
   variant,
+  colorScheme,
   disabled,
   loading,
   href,
@@ -20,7 +21,7 @@ export default function Button({
 }: ButtonProps) {
   if (href) {
     return (
-      <Link className={cn(buttonStyles({ variant, className }))} href={href || ''}>
+      <Link className={cn(buttonStyles({ variant, colorScheme, className }))} href={href || ''}>
         {children}
       </Link>
     );
@@ -29,7 +30,7 @@ export default function Button({
   return (
     <button
       type="button"
-      className={cn(buttonStyles({ variant, className }))}
+      className={cn(buttonStyles({ variant, colorScheme, className }))}
       disabled={disabled || loading}
       {...props}
     >
