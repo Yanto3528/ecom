@@ -2,8 +2,7 @@ import { NextApiHandler } from 'next';
 import { z } from 'zod';
 
 import { validate, catchAsync } from '@/api/middlewares';
-import { categoryInclude } from '@/entities/category.entity';
-import { prisma } from '@/lib/prisma';
+import categoryService from '@/api/services/category.service';
 
 const updateCategorySchema = z.object({
   name: z.string().optional(),
@@ -13,12 +12,7 @@ const updateCategorySchema = z.object({
 const getCategory: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
 
-  const category = await prisma.category.findFirst({
-    where: {
-      slug: slug as string,
-    },
-    include: categoryInclude,
-  });
+  const category = await categoryService.getSingleCategory(slug as string);
 
   return res.status(200).json({
     status: 'success',
@@ -31,15 +25,9 @@ const updateCategory: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
   const { name, slug: bodySlug } = req.body;
 
-  const category = await prisma.category.update({
-    where: {
-      slug: slug as string,
-    },
-    data: {
-      name,
-      slug: bodySlug,
-    },
-    include: categoryInclude,
+  const category = await categoryService.updateCategory(slug as string, {
+    name,
+    slug: bodySlug,
   });
 
   return res.status(200).json({
@@ -51,11 +39,7 @@ const updateCategory: NextApiHandler = async (req, res) => {
 const deleteCategory: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
 
-  await prisma.category.delete({
-    where: {
-      slug: slug as string,
-    },
-  });
+  await categoryService.deleteCategory(slug as string);
 
   return res.status(200).json({
     status: 'success',
