@@ -1,10 +1,9 @@
 import { NextApiHandler } from 'next';
-import slugify from 'slugify';
 import { z } from 'zod';
 
 import { validate, catchAsync } from '@/api/middlewares';
-import { productInclude } from '@/entities/product.entity';
-import { prisma } from '@/lib/prisma';
+import productService from '@/api/services/product.service';
+import { CreateProductInput } from '@/api/types/product';
 
 const createProductSchema = z.object({
   name: z.string().nonempty('Name is required'),
@@ -15,9 +14,7 @@ const createProductSchema = z.object({
 });
 
 const getProducts: NextApiHandler = async (_, res) => {
-  const products = await prisma.product.findMany({
-    include: productInclude,
-  });
+  const products = await productService.getProducts();
 
   return res.status(200).json({
     status: 'success',
@@ -30,24 +27,14 @@ const getProducts: NextApiHandler = async (_, res) => {
 };
 
 const createProduct: NextApiHandler = async (req, res) => {
-  const { name, description, price, quantity, categoryId } = req.body;
+  const { name, description, price, quantity, categoryId } = req.body as CreateProductInput;
 
-  const slug = slugify(name, { lower: true, trim: true, strict: true });
-
-  const product = await prisma.product.create({
-    data: {
-      name,
-      description,
-      price: Number(price?.toFixed(2)),
-      quantity,
-      slug,
-      category: {
-        connect: {
-          id: categoryId,
-        },
-      },
-    },
-    include: productInclude,
+  const product = await productService.createProduct({
+    name,
+    description,
+    price,
+    quantity,
+    categoryId,
   });
 
   return res.status(200).json({

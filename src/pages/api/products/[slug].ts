@@ -2,8 +2,8 @@ import { NextApiHandler } from 'next';
 import { z } from 'zod';
 
 import { validate, catchAsync } from '@/api/middlewares';
-import { productInclude } from '@/entities/product.entity';
-import { prisma } from '@/lib/prisma';
+import productService from '@/api/services/product.service';
+import { UpdateProductInput } from '@/api/types/product';
 
 const updateProductSchema = z.object({
   name: z.string().optional(),
@@ -17,12 +17,7 @@ const updateProductSchema = z.object({
 const getProduct: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
 
-  const product = await prisma.product.findFirst({
-    where: {
-      slug: slug as string,
-    },
-    include: productInclude,
-  });
+  const product = await productService.getSingleProduct(slug as string);
 
   return res.status(200).json({
     status: 'success',
@@ -33,25 +28,22 @@ const getProduct: NextApiHandler = async (req, res) => {
 
 const updateProduct: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
-  const { name, slug: bodySlug, description, price, quantity, categoryId } = req.body;
+  const {
+    name,
+    slug: bodySlug,
+    description,
+    price,
+    quantity,
+    categoryId,
+  } = req.body as UpdateProductInput;
 
-  const product = await prisma.product.update({
-    where: {
-      slug: slug as string,
-    },
-    data: {
-      name,
-      slug: bodySlug,
-      description,
-      price: Number(price?.toFixed(2)),
-      quantity,
-      category: {
-        connect: {
-          id: categoryId,
-        },
-      },
-    },
-    include: productInclude,
+  const product = await productService.updateProduct(slug as string, {
+    name,
+    slug: bodySlug,
+    description,
+    price,
+    quantity,
+    categoryId,
   });
 
   return res.status(200).json({
@@ -63,11 +55,7 @@ const updateProduct: NextApiHandler = async (req, res) => {
 const deleteProduct: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
 
-  await prisma.product.delete({
-    where: {
-      slug: slug as string,
-    },
-  });
+  await productService.deleteProduct(slug as string);
 
   return res.status(200).json({
     status: 'success',
