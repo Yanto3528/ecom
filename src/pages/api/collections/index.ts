@@ -1,10 +1,9 @@
 import { NextApiHandler } from 'next';
-import slugify from 'slugify';
 import { z } from 'zod';
 
 import { validate, catchAsync } from '@/api/middlewares';
-import { productInclude } from '@/entities/product.entity';
-import { prisma } from '@/lib/prisma';
+import collectionService from '@/api/services/collection.service';
+import { CreateCollectionInput } from '@/api/types/collection';
 
 const createCollectionSchema = z.object({
   name: z.string().nonempty('Name is required'),
@@ -12,13 +11,7 @@ const createCollectionSchema = z.object({
 });
 
 const getCollections: NextApiHandler = async (_, res) => {
-  const collections = await prisma.collection.findMany({
-    include: {
-      products: {
-        include: productInclude,
-      },
-    },
-  });
+  const collections = await collectionService.getCollections();
 
   return res.status(200).json({
     status: 'success',
@@ -31,23 +24,11 @@ const getCollections: NextApiHandler = async (_, res) => {
 };
 
 const createCollection: NextApiHandler = async (req, res) => {
-  const { name, products } = req.body;
+  const { name, products } = req.body as CreateCollectionInput;
 
-  const slug = slugify(name, { lower: true, trim: true, strict: true });
-
-  const collection = await prisma.collection.create({
-    data: {
-      name,
-      slug,
-      products: {
-        connect: products,
-      },
-    },
-    include: {
-      products: {
-        include: productInclude,
-      },
-    },
+  const collection = await collectionService.createCollection({
+    name,
+    products,
   });
 
   return res.status(200).json({

@@ -2,8 +2,8 @@ import { NextApiHandler } from 'next';
 import { z } from 'zod';
 
 import { validate, catchAsync } from '@/api/middlewares';
-import { productInclude } from '@/entities/product.entity';
-import { prisma } from '@/lib/prisma';
+import collectionService from '@/api/services/collection.service';
+import { UpdateCollectionInput } from '@/api/types/collection';
 
 const updateCollectionSchema = z.object({
   name: z.string().optional(),
@@ -14,16 +14,7 @@ const updateCollectionSchema = z.object({
 const getCollection: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
 
-  const collection = await prisma.collection.findFirst({
-    where: {
-      slug: slug as string,
-    },
-    include: {
-      products: {
-        include: productInclude,
-      },
-    },
-  });
+  const collection = await collectionService.getSingleCollection(slug as string);
 
   return res.status(200).json({
     status: 'success',
@@ -34,24 +25,12 @@ const getCollection: NextApiHandler = async (req, res) => {
 
 const updateCollection: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
-  const { name, slug: bodySlug, products } = req.body;
+  const { name, slug: bodySlug, products } = req.body as UpdateCollectionInput;
 
-  const collection = await prisma.collection.update({
-    where: {
-      slug: slug as string,
-    },
-    data: {
-      name,
-      slug: bodySlug,
-      products: {
-        set: products,
-      },
-    },
-    include: {
-      products: {
-        include: productInclude,
-      },
-    },
+  const collection = await collectionService.updateCollection(slug as string, {
+    name,
+    slug: bodySlug,
+    products,
   });
 
   return res.status(200).json({
@@ -63,11 +42,7 @@ const updateCollection: NextApiHandler = async (req, res) => {
 const deleteCollection: NextApiHandler = async (req, res) => {
   const { slug } = req.query;
 
-  await prisma.collection.delete({
-    where: {
-      slug: slug as string,
-    },
-  });
+  await collectionService.deleteCollection(slug as string);
 
   return res.status(200).json({
     status: 'success',
