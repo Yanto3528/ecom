@@ -2,8 +2,8 @@ import { NextApiHandler } from 'next';
 import slugify from 'slugify';
 import { z } from 'zod';
 
+import { validate, catchAsync } from '@/api/middlewares';
 import { categoryInclude } from '@/entities/category.entity';
-import { validate, catchAsync } from '@/lib/api-middlewares';
 import { prisma } from '@/lib/prisma';
 
 const createCategorySchema = z.object({

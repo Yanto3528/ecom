@@ -3,7 +3,7 @@ import { NextApiHandler } from 'next';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
-import { validate } from '@/lib/api-middlewares';
+import { validate } from '@/api/middlewares';
 import { authOptions } from '@/lib/next-auth';
 import { prisma } from '@/lib/prisma';
 import { stripe } from '@/lib/stripe';
