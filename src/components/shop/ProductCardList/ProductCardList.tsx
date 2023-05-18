@@ -7,7 +7,7 @@ export default function ProductCardList({ title, products }: ProductCardListProp
     <div>
       {title && <h2 className="mb-4 text-2xl font-bold">{title}</h2>}
       <ul className="grid grid-cols-4 gap-8">
-        {products.map(({ products: product }) => {
+        {products.map((product) => {
           if (!product) {
             return null;
           }

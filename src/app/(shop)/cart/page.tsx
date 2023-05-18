@@ -1,3 +1,5 @@
+'use client';
+
 import { CartTable, Summary } from './components';
 
 export default function Cart() {

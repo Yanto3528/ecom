@@ -7,6 +7,15 @@ export default async function Home() {
   const { data: bestSellerCollectionData } = await fetchCollectionData('best-seller');
   const { data: popularCollectionData } = await fetchCollectionData('popular');
 
+  const bestSellerCollectionProducts =
+    bestSellerCollectionData?.products_and_collections.map(
+      (productCollection) => productCollection.products
+    ) || [];
+  const popularCollectionProducts =
+    popularCollectionData?.products_and_collections.map(
+      (productCollection) => productCollection.products
+    ) || [];
+
   return (
     <main>
       <Hero />
@@ -15,13 +24,13 @@ export default async function Home() {
           {bestSellerCollectionData && (
             <ProductCardList
               title={bestSellerCollectionData.name}
-              products={bestSellerCollectionData.products_and_collections}
+              products={bestSellerCollectionProducts}
             />
           )}
           {popularCollectionData && (
             <ProductCardList
               title={popularCollectionData.name}
-              products={popularCollectionData.products_and_collections}
+              products={popularCollectionProducts}
             />
           )}
         </div>

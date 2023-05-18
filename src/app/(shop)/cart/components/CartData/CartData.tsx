@@ -22,12 +22,7 @@ export default function CartData({ product, quantity }: CardDataProps) {
   return (
     <tr className="border-b border-slate-200">
       <td className="flex items-center gap-4 py-4">
-        <Image
-          src={product.images?.[0].url || ''}
-          alt={product.images?.[0].alt || ''}
-          width={100}
-          height={100}
-        />
+        <Image src={product.images?.[0] || ''} alt={product.name} width={100} height={100} />
         <div>
           <p className="font-bold">{product.name}</p>
         </div>

@@ -29,7 +29,7 @@ export default function Summary() {
     router.push('/auth/login');
   };
 
-  if (cartItems?.length === 0) {
+  if (!cartItems || cartItems?.length === 0) {
     return null;
   }
 

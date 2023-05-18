@@ -1,4 +1,4 @@
-import { BASE_API_URL } from '@/constants/url.constants';
+// import { BASE_API_URL } from '@/constants/url.constants';
 import { ProductEntity } from '@/entities/product.entity';
 import { supabase } from '@/lib/supabase';
 import { PaginatedResponse } from '@/types/common';
@@ -30,25 +30,28 @@ export const updateProduct = async ({
   api.put(`/products/${slug}`, payload).then((response) => response.data.data);
 
 // Called by Server component
-export const fetchProducts = async (): Promise<PaginatedResponse<ProductEntity>> => {
-  try {
-    const response = await fetch(`${BASE_API_URL}/products`, {
-      next: { revalidate: 60 },
-    });
+export const fetchProducts = async () => {
+  const response = await supabase.from('products').select('*, categories(*)');
 
-    const responseBody = await response.json();
+  return { ...response, data: response.data as ProductWithCategory[] };
+  // try {
+  //   const response = await fetch(`${BASE_API_URL}/products`, {
+  //     next: { revalidate: 60 },
+  //   });
 
-    return responseBody;
-  } catch (error) {
-    return {
-      status: 'error',
-      data: [],
-      pagination: {
-        totalCount: 0,
-        totalPage: 0,
-      },
-    };
-  }
+  //   const responseBody = await response.json();
+
+  //   return responseBody;
+  // } catch (error) {
+  //   return {
+  //     status: 'error',
+  //     data: [],
+  //     pagination: {
+  //       totalCount: 0,
+  //       totalPage: 0,
+  //     },
+  //   };
+  // }
 };
 
 export const fetchProductBySlug = async (slug: string) => {
@@ -59,11 +62,4 @@ export const fetchProductBySlug = async (slug: string) => {
     .single();
 
   return { ...response, data: response.data as ProductWithCategory };
-  // const response = await fetch(`${BASE_API_URL}/products/${slug}`, {
-  //   next: { revalidate: 60 },
-  // });
-
-  // const responseBody = await response.json();
-
-  // return responseBody.data;
 };

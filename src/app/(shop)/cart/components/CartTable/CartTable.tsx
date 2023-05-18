@@ -15,7 +15,7 @@ export default function CartTable() {
     [cartItems]
   );
 
-  if (cartItems?.length === 0) {
+  if (!cartItems || cartItems?.length === 0) {
     return (
       <div>
         <p>Your cart is empty</p>
