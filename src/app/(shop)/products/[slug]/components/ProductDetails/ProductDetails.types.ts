@@ -1,5 +1,5 @@
-import { ProductEntity } from '@/entities/product.entity';
+import { ProductWithCategory } from '@/types/db-entity';
 
 export interface ProductDetailsProps {
-  product: ProductEntity;
+  product: ProductWithCategory;
 }

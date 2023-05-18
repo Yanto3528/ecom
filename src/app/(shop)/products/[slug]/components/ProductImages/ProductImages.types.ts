@@ -1,5 +1,5 @@
-import { ProductImageEntity } from '@/entities/productImage.entity';
+import { Product } from '@/types/db-entity';
 
 export interface ProductImagesProps {
-  images: ProductImageEntity[];
+  images: Product['images'];
 }

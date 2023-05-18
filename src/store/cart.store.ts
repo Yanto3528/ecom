@@ -1,17 +1,17 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { ProductEntity } from '@/entities/product.entity';
+import { ProductWithCategory } from '@/types/db-entity';
 
 interface CartSlice {
   items: {
     quantity: number;
-    product: ProductEntity;
+    product: ProductWithCategory;
   }[];
-  addItem: (quantity: number, product: ProductEntity) => void;
-  updateQuantity: (quantity: number, product: ProductEntity) => void;
-  incrementQuantity: (product: ProductEntity) => void;
-  decrementQuantity: (product: ProductEntity) => void;
+  addItem: (quantity: number, product: ProductWithCategory) => void;
+  updateQuantity: (quantity: number, product: ProductWithCategory) => void;
+  incrementQuantity: (product: ProductWithCategory) => void;
+  decrementQuantity: (product: ProductWithCategory) => void;
   removeItem: (id: number) => void;
 }
 

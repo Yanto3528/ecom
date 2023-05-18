@@ -1,6 +1,8 @@
 import { BASE_API_URL } from '@/constants/url.constants';
 import { ProductEntity } from '@/entities/product.entity';
+import { supabase } from '@/lib/supabase';
 import { PaginatedResponse } from '@/types/common';
+import { ProductWithCategory } from '@/types/db-entity';
 import { CreateProductPayload } from '@/types/product';
 
 import { api } from './api';
@@ -49,12 +51,19 @@ export const fetchProducts = async (): Promise<PaginatedResponse<ProductEntity>>
   }
 };
 
-export const fetchProductBySlug = async (slug: string): Promise<ProductEntity> => {
-  const response = await fetch(`${BASE_API_URL}/products/${slug}`, {
-    next: { revalidate: 60 },
-  });
+export const fetchProductBySlug = async (slug: string) => {
+  const response = await supabase
+    .from('products')
+    .select('*, categories(*)')
+    .eq('slug', slug)
+    .single();
 
-  const responseBody = await response.json();
+  return { ...response, data: response.data as ProductWithCategory };
+  // const response = await fetch(`${BASE_API_URL}/products/${slug}`, {
+  //   next: { revalidate: 60 },
+  // });
 
-  return responseBody.data;
+  // const responseBody = await response.json();
+
+  // return responseBody.data;
 };

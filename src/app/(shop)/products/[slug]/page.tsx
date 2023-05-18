@@ -6,9 +6,11 @@ interface ProductDetailProps {
   params: { slug: string };
 }
 
+export const revalidate = 10;
+
 async function ProductDetail({ params }: ProductDetailProps) {
   const { slug } = params;
-  const product = await fetchProductBySlug(slug);
+  const { data: product } = await fetchProductBySlug(slug);
 
   if (!product) {
     return null;
