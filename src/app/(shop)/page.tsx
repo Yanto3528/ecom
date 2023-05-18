@@ -1,16 +1,11 @@
 import { ProductCardList, USP } from '@/components/shop';
-import { fetchCollections } from '@/services/collections.service';
+import { fetchCollectionData } from '@/services/collections.service';
 
 import { Newsletter, Hero } from './components';
 
 export default async function Home() {
-  const bestSellerCollection = fetchCollections('best-seller');
-  const popularCollection = fetchCollections('popular');
-
-  const [bestSellerCollectionData, popularCollectionData] = await Promise.all([
-    bestSellerCollection,
-    popularCollection,
-  ]);
+  const { data: bestSellerCollectionData } = await fetchCollectionData('best-seller');
+  const { data: popularCollectionData } = await fetchCollectionData('popular');
 
   return (
     <main>
@@ -20,13 +15,13 @@ export default async function Home() {
           {bestSellerCollectionData && (
             <ProductCardList
               title={bestSellerCollectionData.name}
-              products={bestSellerCollectionData.products}
+              products={bestSellerCollectionData.products_and_collections}
             />
           )}
           {popularCollectionData && (
             <ProductCardList
               title={popularCollectionData.name}
-              products={popularCollectionData.products}
+              products={popularCollectionData.products_and_collections}
             />
           )}
         </div>

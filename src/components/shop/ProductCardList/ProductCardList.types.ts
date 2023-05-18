@@ -1,6 +1,6 @@
-import { ProductEntity } from '@/entities/product.entity';
+import { ProductWithCategory } from '@/types/db-entity';
 
 export interface ProductCardListProps {
   title?: string;
-  products: ProductEntity[];
+  products: { products: ProductWithCategory }[];
 }

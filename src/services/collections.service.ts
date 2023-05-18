@@ -1,15 +1,18 @@
-import { BASE_API_URL } from '@/constants/url.constants';
-import { CollectionEntity } from '@/entities/collection.entity';
+import { supabase } from '@/lib/supabase';
+import { Collection, ProductWithCategory } from '@/types/db-entity';
 
-export const fetchCollections = async (slug: string): Promise<CollectionEntity | null> => {
-  try {
-    const response = await fetch(`${BASE_API_URL}/collections/${slug}`, {
-      next: { revalidate: 60 },
-    });
-    const responseBody = await response.json();
-
-    return responseBody.data;
-  } catch (error) {
-    return null;
-  }
+type CollectionData = Collection & {
+  products_and_collections: {
+    products: ProductWithCategory;
+  }[];
 };
+
+export async function fetchCollectionData(slug: string) {
+  const response = await supabase
+    .from('collections')
+    .select('*, products_and_collections!inner (products (*, categories (*)))')
+    .eq('slug', slug)
+    .returns<CollectionData[]>();
+
+  return { ...response, data: response.data?.[0] };
+}
