@@ -21,6 +21,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       wrapperClassName,
       size,
       id,
+      rightElement,
       ...props
     },
     ref
@@ -45,6 +46,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           id={id}
           {...props}
         />
+        {rightElement}
       </FormElementWrapper>
       {error && <FormErrorMessage>{error}</FormErrorMessage>}
     </div>
