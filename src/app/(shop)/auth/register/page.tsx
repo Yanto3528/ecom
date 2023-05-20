@@ -16,17 +16,33 @@ interface FormValues {
   name: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
-const schema = z.object({
-  name: z.string(),
-  email: z.string().email('Email must be a valid email address').nonempty('Email is required'),
-  password: z
-    .string()
-    .nonempty('Password is required')
-    .min(6, 'Password must be at least 6 characters')
-    .max(20, 'Password must be at most 20 characters'),
-});
+const schema = z
+  .object({
+    name: z.string().nonempty('Name is required'),
+    email: z.string().email('Email must be a valid email address').nonempty('Email is required'),
+    password: z
+      .string()
+      .nonempty('Password is required')
+      .min(6, 'Password must be at least 6 characters')
+      .max(20, 'Password must be at most 20 characters'),
+    confirmPassword: z
+      .string()
+      .nonempty('Password is required')
+      .min(6, 'Password must be at least 6 characters')
+      .max(20, 'Password must be at most 20 characters'),
+  })
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (password !== confirmPassword) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Password does not match',
+        path: ['confirmPassword'],
+      });
+    }
+  });
 
 export default function Login() {
   const { supabase } = useSupabaseContext();
@@ -115,6 +131,13 @@ export default function Login() {
             label="Password"
             placeholder="Password"
             {...register('password')}
+          />
+          <InputPassword
+            error={errors.confirmPassword?.message}
+            id="confirmPassword"
+            label="Confirm password"
+            placeholder="Confirm password"
+            {...register('confirmPassword')}
           />
           <Button type="submit" loading={isLoading}>
             Sign up

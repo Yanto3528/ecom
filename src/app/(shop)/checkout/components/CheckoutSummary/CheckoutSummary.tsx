@@ -28,8 +28,8 @@ export default function CheckoutSummary() {
             <li key={product.id} className="flex items-start gap-2">
               <div className="relative aspect-square w-16">
                 <Image
-                  src={product.images?.[0].url || ''}
-                  alt={product.images?.[0].alt || ''}
+                  src={product.images?.[0] || ''}
+                  alt={product.name || ''}
                   fill
                   className="object-cover"
                 />

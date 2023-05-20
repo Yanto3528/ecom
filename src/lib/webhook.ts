@@ -1,6 +1,9 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 
-import { prisma } from '@/lib/prisma';
+import { PAYMENT_STATUS } from '@/constants/common.constants';
+import { createServerSupabase } from '@/lib/supabase';
+import { OrderItemInsert } from '@/types/db-entity';
 
 interface StripeMetadata {
   userId: string;
@@ -12,43 +15,52 @@ interface MetadataProduct {
   productId: number;
 }
 
-export const handleChargeSucceeded = async (event: Stripe.Event) => {
+export const handlePaymentSucceeded = async (
+  event: Stripe.Event,
+  { req, res }: { req: NextApiRequest; res: NextApiResponse }
+) => {
   const chargeSucceeded = event.data.object as Record<string, any>;
   const metadata = chargeSucceeded.metadata as StripeMetadata;
   const metadataProducts = JSON.parse(metadata.products) as MetadataProduct[];
 
-  const products = await prisma.product.findMany({
-    where: {
-      id: {
-        in: metadataProducts.map((product) => product.productId),
-      },
-    },
-  });
+  const supabase = createServerSupabase({ req, res });
 
-  const orderItems: any = [];
-  metadataProducts.forEach((product) => {
-    const productData = products.find((productDetails) => productDetails.id === product.productId);
+  const response = await supabase
+    .from('products')
+    .select('*')
+    .in(
+      'id',
+      metadataProducts.map((product) => product.productId)
+    );
 
-    if (!productData) {
-      return;
-    }
+  const products = response.data || [];
 
-    orderItems.push({
-      quantity: product.quantity,
-      price: productData?.price || 0,
-      name: productData.name,
-    });
-  });
-
-  await prisma.order.create({
-    data: {
-      paymentStatus: 'COMPLETED',
+  const { data: order } = await supabase
+    .from('orders')
+    .insert({
       userId: metadata.userId,
-      orderItems: {
-        createMany: {
-          data: orderItems,
-        },
-      },
-    },
-  });
+      paymentStatus: PAYMENT_STATUS.COMPLETED,
+    })
+    .select('*')
+    .single();
+
+  if (order) {
+    const orderItems: OrderItemInsert[] = [];
+    metadataProducts.forEach((product) => {
+      const productData = products.find(
+        (productDetails) => productDetails.id === product.productId
+      );
+
+      if (!productData) {
+        return;
+      }
+
+      orderItems.push({
+        productId: productData.id,
+        orderId: order.id,
+      });
+    });
+
+    await supabase.from('order_items').insert(orderItems);
+  }
 };

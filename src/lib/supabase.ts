@@ -1,5 +1,9 @@
-import { createServerComponentSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import {
+  createServerComponentSupabaseClient,
+  createServerSupabaseClient,
+} from '@supabase/auth-helpers-nextjs';
 import { createClient } from '@supabase/supabase-js';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { headers, cookies } from 'next/headers';
 
 import { Database } from '@/types/database';
@@ -14,3 +18,6 @@ export const createServerComponentSupabase = () =>
     headers,
     cookies,
   });
+
+export const createServerSupabase = ({ req, res }: { req: NextApiRequest; res: NextApiResponse }) =>
+  createServerSupabaseClient<Database>({ req, res });

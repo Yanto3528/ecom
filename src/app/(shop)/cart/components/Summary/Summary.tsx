@@ -3,16 +3,16 @@
 import { useMemo } from 'react';
 
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 
 import { Button } from '@/components/ui';
+import { useSupabaseContext } from '@/contexts/auth.context';
 import { useStore } from '@/hooks/common';
 import { formatCurrency } from '@/lib/utils';
 import { useCartStore } from '@/store/cart.store';
 
 export default function Summary() {
   const cartItems = useStore(useCartStore, (state) => state.items);
-  const { data } = useSession();
+  const { currentUser } = useSupabaseContext();
   const router = useRouter();
 
   const subtotal = useMemo(
@@ -21,7 +21,7 @@ export default function Summary() {
   );
 
   const onCheckout = () => {
-    if (data?.user) {
+    if (currentUser) {
       router.push('/checkout');
       return;
     }
@@ -53,7 +53,7 @@ export default function Summary() {
           <span>{formatCurrency(subtotal)}</span>
         </div>
       </div>
-      <Button onClick={onCheckout}>{data?.user ? 'Checkout' : 'Sign in to checkout'}</Button>
+      <Button onClick={onCheckout}>{currentUser ? 'Checkout' : 'Sign in to checkout'}</Button>
     </div>
   );
 }

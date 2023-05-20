@@ -3,34 +3,41 @@
 import { FormEventHandler } from 'react';
 
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { useSession } from 'next-auth/react';
+import { toast } from 'react-hot-toast';
 
 import { Button } from '@/components/ui';
+import { useSupabaseContext } from '@/contexts/auth.context';
 
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
-  const { data } = useSession();
+  const { currentUser } = useSupabaseContext();
+
+  console.log('render checkout form');
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+    console.log('handle submit called');
     event.preventDefault();
 
+    console.log('check stripe and elements');
     if (!stripe || !elements) {
       return;
     }
 
     const returnUrl = `${window.origin}/checkout/success`;
 
+    console.log('confirm payment');
     const result = await stripe.confirmPayment({
       // `Elements` instance that was used to create the Payment Element
       elements,
       confirmParams: {
         return_url: returnUrl,
-        receipt_email: data?.user.email || '',
+        receipt_email: currentUser?.email || '',
       },
     });
 
-    if (result.error) {
+    if (result.error.message) {
+      toast.error(result.error.message);
       // Show error to your customer (for example, payment details incomplete)
       console.log(result.error.message); // eslint-disable-line no-console
     } else {
@@ -43,7 +50,9 @@ export default function CheckoutForm() {
   return (
     <form onSubmit={handleSubmit} className="flex-1">
       <PaymentElement />
-      <Button className="mt-8 w-full">Pay</Button>
+      <Button type="submit" className="mt-8 w-full">
+        Pay
+      </Button>
     </form>
   );
 }

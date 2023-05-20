@@ -1,12 +1,11 @@
-import { Product } from '@prisma/client';
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { NextApiHandler } from 'next';
-import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
 import { validate } from '@/api/middlewares';
-import { authOptions } from '@/lib/next-auth';
-import { prisma } from '@/lib/prisma';
 import { stripe } from '@/lib/stripe';
+import { Database } from '@/types/database';
+import { Product } from '@/types/db-entity';
 
 interface CartItem {
   quantity: number;
@@ -24,7 +23,9 @@ const getStripePriceFromItems = (items: CartItem[], products: Product[]) => {
       return acc;
     }
 
-    return acc + product.price * item.quantity;
+    const totalProductPrice = Number((product.price * item.quantity).toFixed(1));
+
+    return acc + totalProductPrice;
   }, 0);
 
   return totalPrice * 100;
@@ -32,26 +33,31 @@ const getStripePriceFromItems = (items: CartItem[], products: Product[]) => {
 
 export const createPaymentIntent: NextApiHandler = async (req, res) => {
   const items = req.body.items as CartItem[];
-  const session = await getServerSession(req, res, authOptions);
+  const supabase = createServerSupabaseClient<Database>({ req, res });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  const products = await prisma.product.findMany({
-    where: {
-      id: {
-        in: items.map((item) => item.productId),
-      },
-    },
-  });
+  const response = await supabase
+    .from('products')
+    .select('*')
+    .in(
+      'id',
+      items.map((item) => item.productId)
+    );
 
-  if (session && !session?.user.stripeCustomerId) {
+  const products = response.data || [];
+
+  if (session && !session?.user.user_metadata.stripeCustomerId) {
     const customer = await stripe.customers.create({
-      email: session?.user.email || '',
-      name: session?.user.name || '',
+      email: session?.user.user_metadata.email || '',
+      name: session?.user.user_metadata.name || '',
     });
 
-    session.user.stripeCustomerId = customer.id;
-    await prisma.user.update({
-      where: { id: session?.user.id },
-      data: { stripeCustomerId: customer.id },
+    await supabase.auth.updateUser({
+      data: {
+        stripeCustomerId: customer.id,
+      },
     });
   }
 
@@ -61,7 +67,7 @@ export const createPaymentIntent: NextApiHandler = async (req, res) => {
     automatic_payment_methods: {
       enabled: true,
     },
-    customer: session?.user.stripeCustomerId || undefined,
+    customer: session?.user.user_metadata.stripeCustomerId || undefined,
     metadata: {
       userId: session?.user.id || null,
       products: JSON.stringify(

@@ -2,7 +2,7 @@ import { buffer } from 'micro';
 import { NextApiHandler } from 'next';
 
 import { stripe } from '@/lib/stripe';
-import { handleChargeSucceeded } from '@/lib/webhook';
+import { handlePaymentSucceeded } from '@/lib/webhook';
 
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET || '';
 
@@ -24,8 +24,9 @@ const handleStripeWebhook: NextApiHandler = async (req, res) => {
   }
 
   switch (event.type) {
-    case 'charge.succeeded': {
-      handleChargeSucceeded(event);
+    case 'payment_intent.succeeded': {
+      console.log('handling payment intent succeeded');
+      handlePaymentSucceeded(event, { req, res });
       break;
     }
     default:

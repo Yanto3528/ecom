@@ -82,7 +82,7 @@ export interface Database {
           orderStatus: string | null;
           paymentStatus: string | null;
           updatedAt: string | null;
-          userId: number | null;
+          userId: string;
         };
         Insert: {
           createdAt?: string | null;
@@ -90,7 +90,7 @@ export interface Database {
           orderStatus?: string | null;
           paymentStatus?: string | null;
           updatedAt?: string | null;
-          userId?: number | null;
+          userId: string;
         };
         Update: {
           createdAt?: string | null;
@@ -98,7 +98,7 @@ export interface Database {
           orderStatus?: string | null;
           paymentStatus?: string | null;
           updatedAt?: string | null;
-          userId?: number | null;
+          userId?: string;
         };
       };
       products: {
