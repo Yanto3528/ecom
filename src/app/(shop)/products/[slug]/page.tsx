@@ -1,4 +1,4 @@
-import { fetchProductBySlug } from '@/services/products.service';
+import { fetchProductBySlug } from '@/services/products.server.service';
 
 import { ProductImages, ProductDetails } from './components';
 

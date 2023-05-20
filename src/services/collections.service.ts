@@ -1,4 +1,4 @@
-import { createServerComponentSupabase } from '@/lib/supabase';
+import { createServerComponentSupabase } from '@/lib/server-supabase';
 import { Collection, ProductWithCategory } from '@/types/db-entity';
 
 type CollectionData = Collection & {

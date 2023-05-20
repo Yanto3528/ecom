@@ -1,10 +1,9 @@
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { NextApiHandler } from 'next';
 import { z } from 'zod';
 
 import { validate } from '@/api/middlewares';
+import { createServerSupabase } from '@/lib/server-supabase';
 import { stripe } from '@/lib/stripe';
-import { Database } from '@/types/database';
 import { Product } from '@/types/db-entity';
 
 interface CartItem {
@@ -33,7 +32,7 @@ const getStripePriceFromItems = (items: CartItem[], products: Product[]) => {
 
 export const createPaymentIntent: NextApiHandler = async (req, res) => {
   const items = req.body.items as CartItem[];
-  const supabase = createServerSupabaseClient<Database>({ req, res });
+  const supabase = createServerSupabase({ req, res });
   const {
     data: { session },
   } = await supabase.auth.getSession();

@@ -1,8 +1,6 @@
 // import { BASE_API_URL } from '@/constants/url.constants';
 import { ProductEntity } from '@/entities/product.entity';
-import { supabase } from '@/lib/supabase';
 import { PaginatedResponse } from '@/types/common';
-import { ProductWithCategory } from '@/types/db-entity';
 import { CreateProductPayload } from '@/types/product';
 
 import { api } from './api';
@@ -28,20 +26,3 @@ export const updateProduct = async ({
   payload: Partial<CreateProductPayload>;
 }): Promise<ProductEntity> =>
   api.put(`/products/${slug}`, payload).then((response) => response.data.data);
-
-// Called by Server component
-export const fetchProducts = async () => {
-  const response = await supabase.from('products').select('*, categories(*)');
-
-  return { ...response, data: response.data as ProductWithCategory[] };
-};
-
-export const fetchProductBySlug = async (slug: string) => {
-  const response = await supabase
-    .from('products')
-    .select('*, categories(*)')
-    .eq('slug', slug)
-    .single();
-
-  return { ...response, data: response.data as ProductWithCategory };
-};

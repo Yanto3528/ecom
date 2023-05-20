@@ -13,20 +13,15 @@ export default function CheckoutForm() {
   const elements = useElements();
   const { currentUser } = useSupabaseContext();
 
-  console.log('render checkout form');
-
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
-    console.log('handle submit called');
     event.preventDefault();
 
-    console.log('check stripe and elements');
     if (!stripe || !elements) {
       return;
     }
 
     const returnUrl = `${window.origin}/checkout/success`;
 
-    console.log('confirm payment');
     const result = await stripe.confirmPayment({
       // `Elements` instance that was used to create the Payment Element
       elements,

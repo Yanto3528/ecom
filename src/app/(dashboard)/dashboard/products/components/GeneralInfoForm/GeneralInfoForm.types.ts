@@ -1,8 +1,8 @@
 import { CategoryEntity } from '@/entities/category.entity';
-import { ProductEntity } from '@/entities/product.entity';
+import { ProductWithCategory } from '@/types/db-entity';
 
 export interface GeneralInfoFormProps {
   categories: CategoryEntity[];
-  product?: ProductEntity;
+  product?: ProductWithCategory;
   isEditing?: boolean;
 }

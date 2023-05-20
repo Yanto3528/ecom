@@ -1,5 +1,5 @@
 import { ProductCardList } from '@/components/shop';
-import { fetchProducts } from '@/services/products.service';
+import { fetchProducts } from '@/services/products.server.service';
 
 export default async function Products() {
   const { data: products } = await fetchProducts();

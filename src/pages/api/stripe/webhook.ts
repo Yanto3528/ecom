@@ -25,7 +25,7 @@ const handleStripeWebhook: NextApiHandler = async (req, res) => {
 
   switch (event.type) {
     case 'payment_intent.succeeded': {
-      console.log('handling payment intent succeeded');
+      console.log('handling payment intent succeeded'); // eslint-disable-line no-console
       handlePaymentSucceeded(event, { req, res });
       break;
     }

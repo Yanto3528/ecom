@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 
 import { PAYMENT_STATUS } from '@/constants/common.constants';
-import { createServerSupabase } from '@/lib/supabase';
+import { createServerSupabase } from '@/lib/server-supabase';
 import { OrderItemInsert } from '@/types/db-entity';
 
 interface StripeMetadata {

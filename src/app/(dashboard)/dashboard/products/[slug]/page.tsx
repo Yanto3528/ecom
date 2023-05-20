@@ -1,5 +1,5 @@
 import { fetchCategories } from '@/services/categories.service';
-import { fetchProductBySlug } from '@/services/products.service';
+import { fetchProductBySlug } from '@/services/products.server.service';
 
 import { GeneralInfoForm } from '../components';
 
@@ -8,7 +8,7 @@ interface ProductDetailProps {
 }
 
 export default async function ProductDetail({ params: { slug } }: ProductDetailProps) {
-  const product = await fetchProductBySlug(slug);
+  const { data: product } = await fetchProductBySlug(slug);
   const { data: categories } = await fetchCategories();
 
   return (
