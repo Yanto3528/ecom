@@ -1,5 +1,5 @@
-import { Session } from 'next-auth';
+import { UserMetadata } from '@/types/supabase';
 
 export interface AccountMenuProps {
-  session: Session;
+  currentUser: UserMetadata;
 }

@@ -51,7 +51,26 @@ import type { Database } from '@/types/database';
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
+  const { pathname } = req.nextUrl;
   const supabase = createMiddlewareSupabaseClient<Database>({ req, res });
-  await supabase.auth.getSession();
+
+  const isAuthPage = req.nextUrl.pathname.startsWith('/auth');
+  const sensitiveRoutes = ['/checkout'];
+
+  const { data } = await supabase.auth.getSession();
+  const isAuthenticated = !!data.session;
+
+  if (isAuthPage) {
+    if (isAuthenticated) {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+
+    return null;
+  }
+
+  if (!isAuthenticated && sensitiveRoutes.some((route) => pathname.startsWith(route))) {
+    return NextResponse.redirect(new URL('/auth/login', req.url));
+  }
+
   return res;
 }

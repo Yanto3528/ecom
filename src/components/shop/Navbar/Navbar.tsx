@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+
+import { useSupabaseContext } from '@/contexts/auth.context';
 
 import { Cart, AccountMenu } from './components';
 
@@ -21,7 +22,7 @@ const navItems = [
 ];
 
 export default function Navbar() {
-  const { data, status } = useSession();
+  const { currentUser, isLoading } = useSupabaseContext();
 
   return (
     <nav className="sticky top-0 z-10 mb-14 w-full bg-white py-2 shadow-sm">
@@ -38,10 +39,10 @@ export default function Navbar() {
         </ul>
         <div className="flex items-center gap-4">
           <Cart />
-          {data?.user ? (
-            <AccountMenu session={data} />
+          {currentUser ? (
+            <AccountMenu currentUser={currentUser} />
           ) : (
-            status !== 'loading' && (
+            !isLoading && (
               <Link
                 href="/auth/login"
                 className="py-2 font-medium transition-all hover:text-primary"

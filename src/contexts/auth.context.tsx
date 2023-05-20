@@ -7,14 +7,18 @@ import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 
 import type { Database } from '@/types/database';
+import type { Session, UserMetadata } from '@/types/supabase';
 
 type SupabaseContext = {
   supabase: SupabaseClient<Database>;
+  session: Session | null;
+  currentUser?: UserMetadata;
+  isLoading: boolean;
 };
 
 const Context = createContext<SupabaseContext | undefined>(undefined);
 
-export const useSupabase = () => {
+export const useSupabaseContext = () => {
   const context = useContext(Context);
 
   if (context === undefined) {
@@ -26,13 +30,17 @@ export const useSupabase = () => {
 
 export default function SupabaseProvider({ children }: { children: ReactNode }) {
   const [supabase] = useState(() => createBrowserSupabaseClient());
+  const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const router = useRouter();
 
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
-      router.refresh();
+    } = supabase.auth.onAuthStateChange((_, userSession) => {
+      setIsLoading(false);
+      setSession(userSession as Session);
     });
 
     return () => {
@@ -43,8 +51,11 @@ export default function SupabaseProvider({ children }: { children: ReactNode }) 
   const value = useMemo(
     () => ({
       supabase,
+      session,
+      currentUser: session?.user.user_metadata,
+      isLoading,
     }),
-    [supabase]
+    [supabase, session, isLoading]
   );
 
   return <Context.Provider value={value}>{children}</Context.Provider>;

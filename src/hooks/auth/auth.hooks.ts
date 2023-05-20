@@ -1,17 +1,26 @@
+import {
+  SignInWithPasswordCredentials,
+  SignUpWithPasswordCredentials,
+} from '@supabase/supabase-js';
 import { useMutation } from '@tanstack/react-query';
-import { signIn } from 'next-auth/react';
 
-interface SignInCredentialsPayload {
-  email: string;
-  password: string;
-}
+import { useSupabaseContext } from '@/contexts/auth.context';
 
 export const useSignInCredentialsMutation = () => {
-  const mutation = useMutation((payload: SignInCredentialsPayload) =>
-    signIn('credentials', {
-      ...payload,
-      callbackUrl: '/',
-    })
+  const { supabase } = useSupabaseContext();
+
+  const mutation = useMutation((payload: SignInWithPasswordCredentials) =>
+    supabase.auth.signInWithPassword(payload)
+  );
+
+  return mutation;
+};
+
+export const useSignUpCredentialsMutation = () => {
+  const { supabase } = useSupabaseContext();
+
+  const mutation = useMutation((payload: SignUpWithPasswordCredentials) =>
+    supabase.auth.signUp(payload)
   );
 
   return mutation;

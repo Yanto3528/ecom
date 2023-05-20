@@ -7,7 +7,7 @@ export const buttonStyles = cva(
       variant: {
         solid: '',
         social:
-          'bg-transparent enabled:hover:border-primary enabled:active:bg-transparent text-dark border-gray-200',
+          'bg-white enabled:hover:border-primary enabled:active:bg-transparent text-dark border-gray-200',
       },
       colorScheme: {
         primary: '',

@@ -1,36 +1,38 @@
 import { User, LogOut } from 'lucide-react';
-import { signOut } from 'next-auth/react';
 
 import { Avatar, DropdownMenu, Divider } from '@/components/ui';
+import { useSupabaseContext } from '@/contexts/auth.context';
 import { getNameInitial } from '@/lib/utils';
 
 import { AccountMenuProps } from './AccountMenu.types';
 
-export default function AccountMenu({ session }: AccountMenuProps) {
-  const onLogout = () => {
-    signOut();
+export default function AccountMenu({ currentUser }: AccountMenuProps) {
+  const { supabase } = useSupabaseContext();
+
+  const onLogout = async () => {
+    await supabase.auth.signOut();
   };
 
   return (
     <DropdownMenu>
       <DropdownMenu.Trigger className="flex items-center justify-center">
         <Avatar
-          src={session.user.image || ''}
-          alt={session.user.name || ''}
-          fallback={getNameInitial(session.user.name)}
+          src={currentUser.avatar_url}
+          alt={currentUser.name}
+          fallback={getNameInitial(currentUser.name)}
         />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <div className="flex items-center gap-4 p-2">
           <Avatar
-            src={session.user.image || ''}
-            alt={session.user.name || ''}
-            fallback={getNameInitial(session.user.name)}
+            src={currentUser.avatar_url}
+            alt={currentUser.name}
+            fallback={getNameInitial(currentUser.name)}
             rootClassName="w-10 text-md"
           />
           <div className="flex flex-1 flex-col">
-            <p className="text-sm font-bold">{session.user.name}</p>
-            <span className="text-xs text-gray-500">{session.user.email}</span>
+            <p className="text-sm font-bold">{currentUser.name}</p>
+            <span className="text-xs text-gray-500">{currentUser.email}</span>
           </div>
         </div>
         <Divider />
